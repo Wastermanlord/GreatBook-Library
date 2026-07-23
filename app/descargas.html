@@ -286,8 +286,8 @@
         <div class="current-badge" style="display:none">Tu SO</div>
         <img class="os-icon" src="poster/ds/android.png" alt="Android">
         <h3>Android</h3>
-        <p class="format">APK &bull; .apk</p>
-        <a class="dl-btn" href="https://github.com/Wastermanlord/GreatBook-Library/releases/latest" target="_blank">Descargar</a>
+        <p class="format">Web App &bull; PWA</p>
+        <a class="dl-btn" id="androidInstallBtn" href="https://github.com/Wastermanlord/GreatBook-Library/releases/latest" target="_blank">Instalar App</a>
       </div>
     </div>
 
@@ -383,6 +383,17 @@
     function checkForUpdates() { if (window.electronAPI) window.electronAPI.checkUpdate() }
     function downloadUpdate() { if (window.electronAPI) window.electronAPI.downloadUpdate() }
     function installNow() { if (window.electronAPI) window.electronAPI.installUpdate() }
+
+    const androidBtn = document.getElementById('androidInstallBtn');
+    if (androidBtn) {
+      androidBtn.addEventListener('click', (e) => {
+        if (typeof deferredPrompt !== 'undefined' && deferredPrompt) {
+          e.preventDefault();
+          deferredPrompt.prompt();
+          deferredPrompt.userChoice.then(() => { deferredPrompt = null; });
+        }
+      });
+    }
   </script>
 </body>
 </html>

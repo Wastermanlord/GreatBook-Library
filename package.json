@@ -1,6 +1,6 @@
 {
   "name": "greatbook-library",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "GreatBook Library - Lectura offline",
   "author": "Wastermanlord",
   "license": "MIT",
@@ -8,7 +8,10 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
+    "generate-sw": "node scripts/generate-sw-assets.js",
+    "predist": "node scripts/generate-sw-assets.js",
     "dist": "electron-builder --linux AppImage --win portable",
+    "prerelease": "node scripts/generate-sw-assets.js",
     "release": "GH_TOKEN=$(gh auth token) electron-builder --linux AppImage --win nsis portable --publish always"
   },
   "dependencies": {
