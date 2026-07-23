@@ -1,6 +1,6 @@
 {
   "name": "greatbook-library",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "GreatBook Library - Lectura offline",
   "author": "Wastermanlord",
   "license": "MIT",
@@ -11,10 +11,12 @@
     "dist": "electron-builder --linux AppImage --win portable",
     "release": "GH_TOKEN=$(gh auth token) electron-builder --linux AppImage --win portable --publish always"
   },
+  "dependencies": {
+    "electron-updater": "^6.0.0"
+  },
   "devDependencies": {
     "electron": "^35.7.5",
-    "electron-builder": "^25.0.0",
-    "electron-updater": "^6.0.0"
+    "electron-builder": "^25.0.0"
   },
   "allowScripts": {
     "electron@35.7.5": true

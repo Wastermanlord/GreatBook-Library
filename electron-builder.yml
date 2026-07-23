@@ -6,6 +6,7 @@ files:
   - main.js
   - preload.js
   - app/**/*
+  - "!app/dsapp/**"
 publish:
   provider: github
   owner: Wastermanlord
