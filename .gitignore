@@ -2,3 +2,5 @@ node_modules/
 dist/
 app/dsapp/
 *.log
+builder-debug.yml
+builder-effective-config.yaml
