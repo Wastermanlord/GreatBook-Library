@@ -1,14 +1,14 @@
 # GreatBook Library
 
-Biblioteca virtual personal para leer novelas, fanfics y poesía — completamente offline, con app de escritorio y sitio web.
+App multiplataforma para publicación y lectura de novelas, fanfics y poesía.
 
 ---
 
 ## ¿Qué es?
 
-GreatBook Library es mi librería personal donde publico y leo mis propias novelas, fanfics y poemas. Nació como un proyecto para tener todo mi contenido en un solo lugar, bien presentado y accesible desde cualquier dispositivo.
+GreatBook Library es una plataforma donde publico obras de mi autoría (y próximamente de más escritores). Es una librería virtual en desarrollo activo, pensada para ofrecer una experiencia de lectura cómoda tanto en web como en app de escritorio.
 
-Actualmente incluye obras como *SNV: Duel of Legends*, *Spider-Man: Golden*, *Duelo de Corazones*, *Stellaris* y *Odas Esenciales* — y se sigue actualizando con nuevos capítulos y obras.
+Actualmente incluye obras como *SNV: Duel of Legends*, *Spider-Man: Golden*, *Duelo de Corazones*, *Stellaris* y *Odas Esenciales* — y se sigue expandiendo con nuevos capítulos, obras y funcionalidades.
 
 ---
 
