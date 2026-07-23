@@ -110,6 +110,65 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    document.addEventListener('error', (e) => {
+        if (e.target.tagName === 'IMG' && !e.target.hasAttribute('data-error')) {
+            e.target.setAttribute('data-error', '1');
+            e.target.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect fill="%23e0e0e0" width="100" height="100"/><text x="50" y="55" text-anchor="middle" font-size="32" fill="%23999">📖</text></svg>';
+            e.target.style.objectFit = 'contain';
+            e.target.style.padding = '20%';
+            e.target.alt = 'Imagen no disponible';
+        }
+    }, true);
+
+    const offlineBanner = document.createElement('div');
+    offlineBanner.className = 'offline-banner';
+    offlineBanner.textContent = 'Sin conexión - algunos contenidos pueden no estar disponibles';
+    document.body.insertBefore(offlineBanner, document.body.firstChild);
+    function updateOnlineStatus() {
+        offlineBanner.classList.toggle('show', !navigator.onLine);
+    }
+    window.addEventListener('online', updateOnlineStatus);
+    window.addEventListener('offline', updateOnlineStatus);
+    updateOnlineStatus();
+
+    const catalogSections = document.querySelectorAll('.catalog');
+    if (catalogSections.length) {
+        const searchInput = document.getElementById('searchInput');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        let activeFilter = 'all';
+
+        function filterCatalog() {
+            const term = searchInput ? searchInput.value.toLowerCase().trim() : '';
+            catalogSections.forEach(section => {
+                const books = section.querySelectorAll('.menu a');
+                let visibleCount = 0;
+                books.forEach(link => {
+                    const nameEl = link.querySelector('.nombre');
+                    const title = nameEl ? nameEl.textContent.toLowerCase() : '';
+                    const badgeEl = link.querySelector('.badge');
+                    const status = badgeEl ? badgeEl.textContent.trim().toLowerCase() : '';
+                    const matchesSearch = !term || title.includes(term);
+                    const matchesFilter = activeFilter === 'all' ||
+                        (activeFilter === 'progress' && status === 'en progreso') ||
+                        (activeFilter === 'paused' && status === 'pausado');
+                    const show = matchesSearch && matchesFilter;
+                    link.classList.toggle('hidden-book', !show);
+                    if (show) visibleCount++;
+                });
+                section.classList.toggle('hidden-section', visibleCount === 0);
+            });
+        }
+        if (searchInput) searchInput.addEventListener('input', filterCatalog);
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                activeFilter = btn.dataset.filter;
+                filterCatalog();
+            });
+        });
+    }
+
     if (isChapterPage) {
         const progressBar = document.createElement('div');
         progressBar.className = 'read-progress-bar';

@@ -21,6 +21,7 @@
     <nav class="nav-desktop">
     <ul class="desktop-menu">
 <li><a href="index.html">Inicio</a></li>
+<li><a href="catalogo.html">Catálogo</a></li>
             <li><a href="noticias.html">Noticias</a></li>
             <li><a href="terminos.html">Términos</a></li>
             <li><a href="descargas.html">Descargar</a></li>
@@ -32,6 +33,7 @@
     <div class="menu-mobile-container">
         <ul class="mobile-menu-list">
             <li><a href="index.html">Inicio</a></li>
+            <li><a href="catalogo.html">Catálogo</a></li>
             <li><a href="noticias.html">Noticias</a></li>
             <li><a href="terminos.html">Términos</a></li>
             <li><a href="descargas.html">Descargar</a></li>
@@ -47,7 +49,15 @@
 </nav>
     <main>
         <div class="container">
-            <section class="catalog">
+            <div class="catalog-filters">
+                <input type="text" id="searchInput" placeholder="Buscar por título...">
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-filter="all">Todos</button>
+                    <button class="filter-btn" data-filter="progress">En progreso</button>
+                    <button class="filter-btn" data-filter="paused">Pausado</button>
+                </div>
+            </div>
+            <section class="catalog" data-category="originales">
                 <h3>ORIGINALES</h3>
                 <div class="menu">
                     <a href="original_0001.html">
@@ -74,7 +84,7 @@
                     </a>
                 </div>
             </section>
-            <section class="catalog">
+            <section class="catalog" data-category="fanfic">
                 <h3>FAN-FIC</h3>
                 <div class="menu">
                     <a href="fanfic_0001.html">
@@ -101,7 +111,7 @@
                     </a>
                 </div>
             </section>
-            <section class="catalog">
+            <section class="catalog" data-category="poesia">
                 <h3>POESÍA</h3>
                 <div class="menu">
                     <a href="poesia_1.html">
