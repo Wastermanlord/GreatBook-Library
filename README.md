@@ -15,7 +15,7 @@ Actualmente incluye obras como *SNV: Duel of Legends*, *Spider-Man: Golden*, *Du
 ## ¿Dónde se puede usar?
 
 ### 🌐 Web (Netlify)
-[https://greatbook-library.netlify.app](https://greatbooklibrary.netlify.app)
+[https://greatbooklibrary.netlify.app](https://greatbooklibrary.netlify.app)
 
 Funciona en cualquier navegador. Además, es instalable como aplicación (PWA) — en el celular se puede agregar a la pantalla de inicio y leer sin internet.
 

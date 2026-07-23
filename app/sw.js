@@ -10,6 +10,7 @@ const assets = [
   '/descargas.html',
   '/terminos.html',
   '/manifest.json',
+  '/offline.html',
 ]
 
 self.addEventListener('install', (e) => {

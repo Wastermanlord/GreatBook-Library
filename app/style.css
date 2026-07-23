@@ -78,7 +78,8 @@ table {
 [data-theme="dark"] .chapter-nav {
     background: var(--chapter-nav-bg);
 }
-[data-theme="dark"] .chapter-nav-link {
+[data-theme="dark"] .chapter-nav-link,
+[data-theme="dark"] .chapter-nav-link:hover {
     background: #2a2d33;
     border-color: rgba(255,255,255,0.08);
 }
