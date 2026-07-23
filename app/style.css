@@ -1073,6 +1073,15 @@ footer::before {
     margin-top: 0.6rem;
     padding-left: 1.2rem;
 }
+.news-list-inline {
+    list-style: disc;
+    margin-top: 15px;
+    padding-left: 20px;
+    color: var(--text-secondary);
+}
+.news-list-inline li {
+    margin: 0.2rem 0;
+}
 
 .news-links li {
     margin: 0.2rem 0;
