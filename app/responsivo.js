@@ -1,7 +1,5 @@
-// JavaScript para GreatBook Library - Menú y Sistema de Auto-guardado
 document.addEventListener('DOMContentLoaded', function() {
-    
-    // --- 1. LÓGICA DEL MENÚ CIRCULAR ---
+
     const menuToggle = document.querySelector('.menu-toggle');
     const circle = document.querySelector('.circle');
     const menuContainer = document.querySelector('.menu-mobile-container');
@@ -36,9 +34,6 @@ document.addEventListener('DOMContentLoaded', function() {
         menuItems.forEach(li => { li.querySelector('a').addEventListener('click', closeMenu); });
     }
 
-    // --- 2. SISTEMA DE AUTO-GUARDADO ---
-
-    // Función para normalizar IDs (ej: fanfic_0001 -> fanfic_1)
     function normalizeId(id) {
         return id.toLowerCase().replace(/_0+/g, '_').replace('.html', '');
     }
@@ -46,7 +41,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const currentPath = window.location.pathname;
     const fileName = currentPath.split('/').pop() || 'index.html';
 
-    // A. GUARDAR PROGRESO Y MARCAR LEÍDOS (Si estamos en un capítulo)
     const isChapterPage = document.querySelector('.chapter-content');
     if (isChapterPage) {
         const parts = fileName.split('_');
@@ -57,7 +51,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // B. MARCAR CAPÍTULOS LEÍDOS EN EL MENÚ (Si estamos en la portada de un libro)
     const chapterListEl = document.querySelector('.chapter-menu .chapter-list');
     if (chapterListEl) {
         chapterListEl.querySelectorAll('a[href]').forEach(link => {
