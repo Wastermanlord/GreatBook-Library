@@ -1,6 +1,6 @@
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js')
-}
+try {
+  if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js')
+} catch {}
 
 document.addEventListener('DOMContentLoaded', function() {
 
