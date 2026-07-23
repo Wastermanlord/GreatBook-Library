@@ -1,4 +1,4 @@
-const CACHE = 'greatbook-v1'
+const CACHE = 'greatbook-v2'
 const assets = [
   '/',
   '/index.html',
@@ -32,17 +32,28 @@ self.addEventListener('activate', (e) => {
 self.addEventListener('fetch', (e) => {
   const { request } = e
   if (request.method !== 'GET') return
-  if (request.url.includes('github.com') || request.url.includes('api.github')) {
+
+  const url = new URL(request.url)
+
+  if (url.hostname.includes('github.com') || url.hostname.includes('api.github')) {
     e.respondWith(fetch(request))
     return
   }
+
+  if (/\.(css|js|png|jpg|jpeg|svg|ico|woff2?)$/i.test(url.pathname)) {
+    e.respondWith(
+      caches.match(request).then((cached) => cached || fetch(request).then((res) => {
+        if (res.ok) { const c = res.clone(); caches.open(CACHE).then((cache) => cache.put(request, c)) }
+        return res
+      }))
+    )
+    return
+  }
+
   e.respondWith(
-    caches.match(request).then((cached) => cached || fetch(request).then((res) => {
-      if (res.ok && res.type === 'basic') {
-        const clone = res.clone()
-        caches.open(CACHE).then((cache) => cache.put(request, clone))
-      }
+    fetch(request).then((res) => {
+      if (res.ok) { const c = res.clone(); caches.open(CACHE).then((cache) => cache.put(request, c)) }
       return res
-    })).catch(() => caches.match('/offline.html'))
+    }).catch(() => caches.match(request).then((c) => c || caches.match('/offline.html')))
   )
 })
