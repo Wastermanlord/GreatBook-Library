@@ -1,0 +1,22 @@
+appId: com.greatbook.library
+productName: GreatBook Library
+directories:
+  output: dist
+files:
+  - main.js
+  - preload.js
+  - app/**/*
+publish:
+  provider: github
+  owner: Wastermanlord
+  repo: GreatBook-Library
+  releaseType: release
+linux:
+  target:
+    - AppImage
+  icon: app/logo.png
+  category: Office
+win:
+  target:
+    - portable
+  icon: app/logo.png

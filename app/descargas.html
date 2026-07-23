@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>GreatBook Library - Descargas</title>
+  <link rel="icon" type="image/png" href="logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    .page-section {
+      max-width: 680px;
+      margin: 40px auto;
+      padding: 40px 32px;
+      background: var(--card-background);
+      border-radius: 20px;
+      box-shadow: var(--shadow-medium);
+      text-align: center;
+      animation: fadeIn 0.5s ease-out;
+      border: 1px solid rgba(0,0,0,0.06);
+    }
+    .page-section h2 {
+      font-family: var(--font-heading);
+      font-size: 1.6rem;
+      color: var(--primary-color);
+      margin-bottom: 4px;
+    }
+    .page-section .sub {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      margin-bottom: 28px;
+    }
+    .version-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--accent-color);
+      color: var(--primary-color);
+      padding: 6px 18px 6px 14px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      margin-bottom: 6px;
+    }
+    .version-chip .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--primary-color);
+      animation: pulse-dot 2s infinite;
+    }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+    .os-label {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      margin-bottom: 24px;
+    }
+
+    .dl-grid {
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .dl-card {
+      flex: 1 1 200px;
+      max-width: 240px;
+      background: var(--background-color);
+      border-radius: 16px;
+      padding: 28px 16px 20px;
+      position: relative;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: default;
+      border: 2px solid transparent;
+    }
+    .dl-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.12);
+    }
+    .dl-card .os-icon {
+      width: 56px;
+      height: 56px;
+      object-fit: contain;
+      margin: 0 auto 12px;
+      display: block;
+    }
+    .dl-card h3 {
+      font-family: var(--font-heading);
+      font-size: 1.2rem;
+      color: var(--primary-color);
+      margin-bottom: 2px;
+    }
+    .dl-card .format {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      margin-bottom: 14px;
+    }
+    .dl-card .dl-btn {
+      display: inline-block;
+      background: var(--accent-color);
+      color: var(--primary-color);
+      font-weight: 700;
+      padding: 10px 28px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-size: 0.9rem;
+      letter-spacing: 0.5px;
+      transition: background 0.3s, transform 0.2s;
+    }
+    .dl-card .dl-btn:hover {
+      background: #c19b2a;
+      transform: scale(1.05);
+    }
+    .dl-card.current {
+      border-color: var(--accent-color);
+      background: linear-gradient(135deg, rgba(212,175,55,0.08), transparent);
+    }
+    .dl-card .current-badge {
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      background: var(--accent-color);
+      color: var(--primary-color);
+      font-size: 0.7rem;
+      font-weight: 800;
+      padding: 4px 12px;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      box-shadow: 0 2px 8px rgba(212,175,55,0.35);
+    }
+    .dl-card .size {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      margin-top: 8px;
+    }
+
+    .update-box {
+      margin-top: 32px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(0,0,0,0.06);
+    }
+    .update-box h3 {
+      font-family: var(--font-heading);
+      font-size: 1.1rem;
+      color: var(--primary-color);
+      margin-bottom: 12px;
+    }
+    .update-box .status-area {
+      min-height: 60px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    .btn {
+      background: var(--accent-color);
+      color: var(--primary-color);
+      border: none;
+      padding: 10px 28px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+      letter-spacing: 0.5px;
+    }
+    .btn:hover {
+      background: #c19b2a;
+      transform: translateY(-2px);
+    }
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .spinner {
+      width: 28px;
+      height: 28px;
+      border: 3px solid rgba(0,0,0,0.08);
+      border-top-color: var(--accent-color);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .progress-bar {
+      width: 100%;
+      max-width: 260px;
+      height: 6px;
+      background: rgba(0,0,0,0.06);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: var(--accent-color);
+      border-radius: 999px;
+      transition: width 0.3s;
+    }
+    .status-text {
+      font-size: 0.95rem;
+      color: var(--text-primary);
+      margin: 0;
+    }
+    .status-sub {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      margin: 0;
+    }
+
+    @media (max-width: 600px) {
+      .page-section { margin: 20px 12px; padding: 28px 16px; }
+      .dl-card { flex: 1 1 100%; max-width: 100%; }
+      .dl-card .current-badge { right: 8px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>GreatBook Library</h1>
+  </header>
+
+  <nav class="nav-desktop">
+    <ul class="desktop-menu">
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="catalogo.html">Catálogo</a></li>
+      <li><a href="noticias.html">Noticias</a></li>
+      <li><a href="terminos.html">Términos</a></li>
+    </ul>
+  </nav>
+
+  <nav class="nav-mobile">
+    <div class="circle"></div>
+    <div class="menu-mobile-container">
+      <ul class="mobile-menu-list">
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="catalogo.html">Catálogo</a></li>
+        <li><a href="noticias.html">Noticias</a></li>
+        <li><a href="terminos.html">Términos</a></li>
+      </ul>
+    </div>
+    <button class="menu-toggle" aria-label="Toggle menu">
+      <div class="burger-lines">
+        <div class="x"></div>
+        <div class="y"></div>
+        <div class="z"></div>
+      </div>
+    </button>
+  </nav>
+
+  <div class="page-section">
+    <div class="version-chip" id="versionChip">
+      <span class="dot"></span>
+      <span id="versionDisplay">v1.0.0</span>
+    </div>
+    <div class="os-label" id="platformDisplay"></div>
+
+    <h2>Descargar GreatBook Library</h2>
+    <p class="sub">Elige la versión para tu sistema operativo</p>
+
+    <div class="dl-grid" id="downloadsGrid">
+      <div class="dl-card" data-platform="linux">
+        <div class="current-badge" style="display:none">Tu SO</div>
+        <img class="os-icon" src="poster/ds/linux.png" alt="Linux">
+        <h3>Linux</h3>
+        <p class="format">AppImage &bull; Portable</p>
+        <a class="dl-btn" href="dsapp/release-linux.AppImage" download>Descargar</a>
+      </div>
+      <div class="dl-card" data-platform="windows">
+        <div class="current-badge" style="display:none">Tu SO</div>
+        <img class="os-icon" src="poster/ds/windows.png" alt="Windows">
+        <h3>Windows</h3>
+        <p class="format">Portable &bull; .exe</p>
+        <a class="dl-btn" href="dsapp/release-windows.exe" download>Descargar</a>
+      </div>
+      <div class="dl-card" data-platform="android">
+        <div class="current-badge" style="display:none">Tu SO</div>
+        <img class="os-icon" src="poster/ds/android.png" alt="Android">
+        <h3>Android</h3>
+        <p class="format">APK &bull; .apk</p>
+        <a class="dl-btn" href="dsapp/release-android.apk" download>Descargar</a>
+      </div>
+    </div>
+
+    <div class="update-box" id="updateBox">
+      <h3>Actualizaciones</h3>
+      <div class="status-area" id="statusArea"></div>
+    </div>
+  </div>
+
+  <script src="responsivo.js"></script>
+  <script>
+    const isDesktopApp = !!window.electronAPI
+    const versionDisplay = document.getElementById('versionDisplay')
+    const platformDisplay = document.getElementById('platformDisplay')
+    const statusArea = document.getElementById('statusArea')
+    const grid = document.getElementById('downloadsGrid')
+    const updateBox = document.getElementById('updateBox')
+    const versionChip = document.getElementById('versionChip')
+
+    function detectBrowserOS() {
+      const ua = navigator.userAgent
+      if (/Android/i.test(ua)) return 'android'
+      if (/Windows/i.test(ua)) return 'windows'
+      if (/Linux/i.test(ua)) return 'linux'
+      return ''
+    }
+
+    function highlightCard(platform) {
+      grid.querySelectorAll('.dl-card').forEach(card => {
+        const badge = card.querySelector('.current-badge')
+        if (card.dataset.platform === platform) {
+          card.classList.add('current')
+          badge.style.display = 'inline-block'
+        }
+      })
+    }
+
+    if (isDesktopApp) {
+      versionDisplay.textContent = 'v' + window.electronAPI.getVersion()
+      const p = window.electronAPI.platform
+      platformDisplay.textContent = 'Estás en ' + (p === 'win32' ? 'Windows' : 'Linux')
+      highlightCard(p)
+
+      window.electronAPI.onUpdateStatus((status) => {
+        statusArea.innerHTML = ''
+        switch (status) {
+          case 'checking':
+            statusArea.innerHTML = '<div class="spinner"></div><p class="status-text">Buscando actualizaciones...</p>'
+            break
+          case 'not-available':
+            statusArea.innerHTML = '<p class="status-text">Tienes la versión más reciente</p><p class="status-sub">GreatBook Library v' + window.electronAPI.getVersion() + '</p><button class="btn" onclick="checkForUpdates()" style="margin-top:12px">Buscar de nuevo</button>'
+            break
+          case 'available':
+            statusArea.innerHTML = '<p class="status-text">Nueva versión disponible</p><button class="btn" onclick="downloadUpdate()">Descargar actualización</button>'
+            break
+          case 'downloaded':
+            statusArea.innerHTML = '<p class="status-text">Actualización lista</p><p class="status-sub">Se instalará al cerrar la app</p><button class="btn" onclick="installNow()">Instalar ahora</button>'
+            break
+          default:
+            statusArea.innerHTML = '<button class="btn" onclick="checkForUpdates()">Buscar actualizaciones</button>'
+        }
+      })
+
+      window.electronAPI.onUpdateInfo((info) => {
+        const p = statusArea.querySelector('.status-sub')
+        if (p) p.textContent = 'v' + info.version
+      })
+
+      window.electronAPI.onDownloadProgress((progress) => {
+        const pct = Math.round(progress.percent)
+        statusArea.innerHTML = '<p class="status-text">Descargando actualización...</p><div class="progress-bar"><div class="progress-fill" style="width:' + pct + '%"></div></div><p class="status-sub">' + pct + '%</p>'
+      })
+
+      window.electronAPI.onUpdateError((msg) => {
+        statusArea.innerHTML = '<p class="status-text" style="color:var(--accent-color)">Error al buscar</p><p class="status-sub">' + msg + '</p><button class="btn" onclick="checkForUpdates()" style="margin-top:12px">Reintentar</button>'
+      })
+    } else {
+      versionChip.style.display = 'none'
+      updateBox.style.display = 'none'
+      const detected = detectBrowserOS()
+      const names = { linux: 'Linux', windows: 'Windows', android: 'Android' }
+      platformDisplay.textContent = detected ? 'Detectamos ' + (names[detected] || detected) : ''
+      highlightCard(detected)
+    }
+
+    function checkForUpdates() { if (window.electronAPI) window.electronAPI.checkUpdate() }
+    function downloadUpdate() { if (window.electronAPI) window.electronAPI.downloadUpdate() }
+    function installNow() { if (window.electronAPI) window.electronAPI.installNow() }
+  </script>
+</body>
+</html>

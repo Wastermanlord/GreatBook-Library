@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GreatBook Library - Catálogo</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- Hojas de estilo -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>GreatBook Library</h1>
+        </div>
+    </header>
+    <nav class="nav-desktop">
+    <ul class="desktop-menu">
+<li><a href="index.html">Inicio</a></li>
+            <li><a href="noticias.html">Noticias</a></li>
+            <li><a href="terminos.html">Términos</a></li>
+            <li><a href="descargas.html">Descargar</a></li>
+    </ul>
+</nav>
+
+<nav class="nav-mobile">
+    <div class="circle"></div>
+    <div class="menu-mobile-container">
+        <ul class="mobile-menu-list">
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="noticias.html">Noticias</a></li>
+            <li><a href="terminos.html">Términos</a></li>
+            <li><a href="descargas.html">Descargar</a></li>
+        </ul>
+    </div>
+    <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <div class="burger-lines">
+            <div class="x"></div>
+            <div class="y"></div>
+            <div class="z"></div>
+        </div>
+    </button>
+</nav>
+    <main>
+        <div class="container">
+            <section class="catalog">
+                <h3>ORIGINALES</h3>
+                <div class="menu">
+                    <a href="original_0001.html" style="text-decoration: none;">
+                        <div class="libro">
+                            <img src="poster/4.png" alt="Portada de Duelo de Corazones">
+                        <div class="libro-info">
+                            <div class="nombre">Duelo de Corazones</div>
+                            <div class="badge badge-paused">Pausado</div>
+                            <div class="dato">Romance</div>
+                            <div class="dato">2024</div>
+                        </div>
+                        </div>
+                    </a>
+                    <a href="original_0002.html" style="text-decoration: none;">
+                        <div class="libro">
+                            <img src="poster/5.jpg" alt="Portada de Stellaris">
+                        <div class="libro-info">
+                            <div class="nombre">Stellaris</div>
+                            <div class="badge badge-paused">Pausado</div>
+                            <div class="dato">Sci-Fi</div>
+                            <div class="dato">2024</div>
+                        </div>
+                        </div>
+                    </a>
+                </div>
+            </section>
+            <section class="catalog">
+                <h3>FAN-FIC</h3>
+                <div class="menu">
+                    <a href="fanfic_0001.html" style="text-decoration: none;">
+                        <div class="libro">
+                            <img src="poster/3.png" alt="Portada de SNV: Duel of Legends">
+                        <div class="libro-info">
+                            <div class="nombre">SNV: Duel of Legends</div>
+                            <div class="badge badge-progress">En progreso</div>
+                            <div class="dato">Acción</div>
+                            <div class="dato">2023</div>
+                        </div>
+                        </div>
+                    </a>
+                    <a href="fanfic_0002.html" style="text-decoration: none;">
+                        <div class="libro">
+                            <img src="poster/1.png" alt="Portada de Spider-Man: Golden">
+                        <div class="libro-info">
+                            <div class="nombre">Spider-Man: Golden</div>
+                            <div class="badge badge-paused">Pausado</div>
+                            <div class="dato">Aventura</div>
+                            <div class="dato">2023</div>
+                        </div>
+                        </div>
+                    </a>
+                </div>
+            </section>
+            <section class="catalog">
+                <h3>POESÍA</h3>
+                <div class="menu">
+                    <a href="poesia_1.html" style="text-decoration: none;">
+                        <div class="libro">
+                            <img src="poster/6.jpg" alt="Portada de ODAS Esenciales">
+                        <div class="libro-info">
+                            <div class="nombre">ODAS Esenciales</div>
+                            <div class="badge badge-paused">Pausado</div>
+                            <div class="dato">Poesía</div>
+                            <div class="dato">1954</div>
+                        </div>
+                        </div>
+                    </a>
+                </div>
+            </section>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2026 GreatBook Library. Todos los derechos reservados.</p>
+    </footer>
+    <script src="responsivo.js"></script>
+</body>
+</html>

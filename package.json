@@ -1,0 +1,22 @@
+{
+  "name": "greatbook-library",
+  "version": "1.0.0",
+  "description": "GreatBook Library - Lectura offline",
+  "author": "Wastermanlord",
+  "license": "MIT",
+  "repository": "github:Wastermanlord/GreatBook-Library",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --linux AppImage --win portable",
+    "release": "electron-builder --linux AppImage --win portable --publish always"
+  },
+  "devDependencies": {
+    "electron": "^35.7.5",
+    "electron-builder": "^25.0.0",
+    "electron-updater": "^6.0.0"
+  },
+  "allowScripts": {
+    "electron@35.7.5": true
+  }
+}
