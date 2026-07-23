@@ -245,7 +245,7 @@
         <li><a href="terminos.html">Términos</a></li>
       </ul>
     </div>
-    <button class="menu-toggle" aria-label="Toggle menu">
+    <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
       <div class="burger-lines">
         <div class="x"></div>
         <div class="y"></div>
@@ -372,7 +372,7 @@
 
     function checkForUpdates() { if (window.electronAPI) window.electronAPI.checkUpdate() }
     function downloadUpdate() { if (window.electronAPI) window.electronAPI.downloadUpdate() }
-    function installNow() { if (window.electronAPI) window.electronAPI.installNow() }
+    function installNow() { if (window.electronAPI) window.electronAPI.installUpdate() }
   </script>
 </body>
 </html>
