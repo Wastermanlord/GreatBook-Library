@@ -1,0 +1,15 @@
+{
+  "version": "2026-07-23-1",
+  "files": [
+    "index.html", "catalogo.html", "noticias.html", "descargas.html", "terminos.html",
+    "404.html", "offline.html",
+    "fanfic_0001.html", "fanfic_0002.html", "original_0001.html", "original_0002.html", "poesia_1.html",
+    "fanfic_1_001.html", "fanfic_1_002.html", "fanfic_1_003.html", "fanfic_1_004.html", "fanfic_1_005.html",
+    "fanfic_2_001.html", "fanfic_2_002.html",
+    "original_0001_prologo.html", "original_0002_0001.html", "poesia_1_001.html",
+    "style.css", "responsivo.js", "manifest.json", "sw.js", "logo.png",
+    "poster/1.png", "poster/3.png", "poster/4.png", "poster/5.jpg", "poster/6.jpg",
+    "poster/ds/android.png", "poster/ds/linux.png", "poster/ds/windows.png",
+    "capitulos/fanfic_1_005.txt"
+  ]
+}

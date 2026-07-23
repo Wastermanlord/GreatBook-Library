@@ -52,9 +52,20 @@ document.addEventListener('DOMContentLoaded', function() {
         const parts = fileName.split('_');
         if (parts.length >= 2) {
             const bookBaseId = normalizeId(parts[0] + "_" + parts[1]);
-            localStorage.setItem(`last_cap_${bookBaseId}`, fileName);
+            const h2 = document.querySelector('.chapter-content h2');
+            localStorage.setItem(`last_cap_${bookBaseId}`, JSON.stringify({
+                chapter: fileName,
+                title: h2 ? h2.textContent.trim() : fileName,
+                time: Date.now()
+            }));
             localStorage.setItem(`read_${normalizeId(fileName)}`, '1');
         }
+    }
+
+    const bookTitleEl = document.querySelector('.book-info h1');
+    if (bookTitleEl) {
+        const bookId = normalizeId(fileName.replace('.html', ''));
+        localStorage.setItem(`book_${bookId}`, bookTitleEl.textContent.trim());
     }
 
     const chapterListEl = document.querySelector('.chapter-menu .chapter-list');

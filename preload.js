@@ -22,4 +22,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
     ipcRenderer.removeAllListeners('update-error')
     ipcRenderer.on('update-error', (_event, msg) => cb(msg))
   },
+  onContentVersion: (cb) => {
+    ipcRenderer.removeAllListeners('content-version')
+    ipcRenderer.on('content-version', (_event, info) => cb(info))
+  },
 })

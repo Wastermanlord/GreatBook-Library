@@ -389,6 +389,41 @@ main {
     padding: 3rem 2rem;
 }
 
+.continue-section {
+    padding: 1rem 0 3rem;
+}
+.continue-section h3 {
+    font-family: var(--font-heading);
+    font-size: 1.4rem;
+    color: var(--primary-color);
+    text-align: center;
+    margin-bottom: 1.2rem;
+}
+.continue-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--card-background);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-soft);
+    padding: 1rem 1.4rem;
+    margin-bottom: 0.6rem;
+    transition: var(--transition-smooth);
+    border-left: 3px solid var(--accent-color);
+}
+.continue-card:hover {
+    box-shadow: var(--shadow-medium);
+    transform: translateX(4px);
+}
+.continue-card strong {
+    font-size: 0.95rem;
+    color: var(--primary-color);
+}
+.continue-card span {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
 .btn {
     display: inline-block;
     padding: 0.8rem 2rem;

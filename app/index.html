@@ -62,13 +62,46 @@
                 <a href="catalogo.html" class="btn" style="margin-top:20px">Explorar el Catálogo</a>
             </div>
         </section>
+
+        <section class="continue-section" id="continueSection" style="display:none">
+            <div class="container">
+                <h3>Continuar leyendo</h3>
+                <div id="continueList"></div>
+            </div>
+        </section>
     </main>
 
 <footer>
 <p>&copy; 2026 GreatBook Library. Todos los derechos reservados.</p>
 </footer>
 
-    <script src="responsivo.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const list = document.getElementById('continueList');
+        const section = document.getElementById('continueSection');
+        const entries = [];
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            if (!key.startsWith('last_cap_')) continue;
+            const bookId = key.replace('last_cap_', '');
+            try {
+                const data = JSON.parse(localStorage.getItem(key));
+                if (!data || !data.chapter) continue;
+                const bookTitle = localStorage.getItem('book_' + bookId) || bookId;
+                entries.push({ bookId, bookTitle, ...data });
+            } catch {}
+        }
+        if (entries.length === 0) return;
+        entries.sort((a, b) => (b.time || 0) - (a.time || 0));
+        section.style.display = '';
+        list.innerHTML = entries.map(e =>
+            `<a href="${e.chapter}" class="continue-card">
+                <strong>${e.bookTitle}</strong>
+                <span>${e.title}</span>
+            </a>`
+        ).join('');
+    });
+    </script>
 </body>
 
 </html>

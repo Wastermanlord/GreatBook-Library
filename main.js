@@ -4,9 +4,48 @@ const path = require('path')
 const fs = require('fs')
 
 const isDev = !app.isPackaged
-const windowStateFile = path.join(app.getPath('userData'), 'window-state.json')
+const userData = app.getPath('userData')
+const windowStateFile = path.join(userData, 'window-state.json')
+const contentDir = path.join(userData, 'content')
 
 let mainWindow
+let contentRoot = path.join(__dirname, 'app')
+
+function contentPath(file) {
+  const local = path.join(contentDir, file)
+  if (fs.existsSync(local)) return local
+  return path.join(contentRoot, file)
+}
+
+async function updateContent() {
+  const RAW = 'https://raw.githubusercontent.com/Wastermanlord/GreatBook-Library/main'
+  try {
+    const res = await fetch(RAW + '/content-version.json')
+    if (!res.ok) return false
+    const remote = await res.json()
+    const verFile = path.join(contentDir, 'version.json')
+    let current = ''
+    try { current = JSON.parse(fs.readFileSync(verFile, 'utf8')).version } catch {}
+    if (current === remote.version) return false
+    fs.rmSync(contentDir, { recursive: true, force: true })
+    const files = remote.files
+    let ok = true
+    for (const f of files) {
+      try {
+        const fres = await fetch(RAW + '/app/' + encodeURI(f))
+        if (!fres.ok) { ok = false; break }
+        const buf = Buffer.from(await fres.arrayBuffer())
+        const dest = path.join(contentDir, f)
+        fs.mkdirSync(path.dirname(dest), { recursive: true })
+        fs.writeFileSync(dest, buf)
+      } catch { ok = false; break }
+    }
+    if (!ok) { fs.rmSync(contentDir, { recursive: true, force: true }); return false }
+    fs.writeFileSync(verFile, JSON.stringify(remote))
+    contentRoot = contentDir
+    return files.length
+  } catch { return false }
+}
 
 autoUpdater.autoDownload = false
 autoUpdater.autoInstallOnAppQuit = true
@@ -88,7 +127,7 @@ function createWindow() {
   if (state?.maximized) mainWindow.maximize()
 
   Menu.setApplicationMenu(null)
-  mainWindow.loadFile(path.join(__dirname, 'app', 'index.html'))
+  mainWindow.loadFile(contentPath('index.html'))
 
   mainWindow.webContents.on('did-finish-load', () => {
     mainWindow.webContents.insertCSS(`
@@ -159,13 +198,19 @@ if (!gotTheLock) {
     }
   })
 
-  app.whenReady().then(() => {
+  app.whenReady().then(async () => {
     setCSP()
     createWindow()
     if (!isDev) createTray()
 
     if (!isDev) {
       setTimeout(() => autoUpdater.checkForUpdates(), 3000)
+    }
+
+    if (!isDev) {
+      const updated = await updateContent()
+      if (updated) mainWindow.loadFile(contentPath('index.html'))
+      if (mainWindow) mainWindow.webContents.send('content-version', { updated: !!updated })
     }
 
     ipcMain.on('check-update', () => {
@@ -182,6 +227,10 @@ if (!gotTheLock) {
 
     ipcMain.on('get-version', (event) => {
       event.returnValue = app.getVersion()
+    })
+
+    ipcMain.on('get-content-root', (event) => {
+      event.returnValue = contentRoot
     })
 
     app.on('activate', () => {
