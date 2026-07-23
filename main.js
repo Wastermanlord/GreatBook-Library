@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Menu, ipcMain } = require('electron')
+const { app, BrowserWindow, Menu, ipcMain, session, Tray, nativeImage } = require('electron')
 const { autoUpdater } = require('electron-updater')
 const path = require('path')
 const fs = require('fs')
@@ -28,6 +28,40 @@ function saveWindowState() {
   const bounds = mainWindow.getBounds()
   const maximized = mainWindow.isMaximized()
   fs.writeFileSync(windowStateFile, JSON.stringify({ ...bounds, maximized }))
+}
+
+let tray
+
+function createTray() {
+  const iconPath = path.join(__dirname, 'app', 'logo.png')
+  const icon = nativeImage.createFromPath(iconPath).resize({ width: 16, height: 16 })
+  tray = new Tray(icon)
+  tray.setToolTip('GreatBook Library')
+  tray.setContextMenu(Menu.buildFromTemplate([
+    { label: 'Abrir', click: () => { if (mainWindow) { mainWindow.show(); mainWindow.focus() } } },
+    { type: 'separator' },
+    { label: 'Salir', click: () => { app.isQuitting = true; app.quit() } },
+  ]))
+  tray.on('double-click', () => { if (mainWindow) { mainWindow.show(); mainWindow.focus() } })
+}
+
+function setCSP() {
+  session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
+    callback({
+      responseHeaders: {
+        ...details.responseHeaders,
+        'Content-Security-Policy': [
+          "default-src 'self'; " +
+          "script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; " +
+          "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; " +
+          "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; " +
+          "img-src 'self' data:; " +
+          "connect-src 'self' https://api.github.com https://github.com; " +
+          "frame-src 'none'; object-src 'none'"
+        ],
+      },
+    })
+  })
 }
 
 function createWindow() {
@@ -78,10 +112,21 @@ function createWindow() {
     contextMenu.popup()
   })
 
-  mainWindow.on('close', saveWindowState)
+  if (!isDev) {
+    mainWindow.on('close', (e) => {
+      if (!app.isQuitting) {
+        e.preventDefault()
+        mainWindow.hide()
+      }
+    })
+  } else {
+    mainWindow.on('close', saveWindowState)
+  }
   mainWindow.on('resize', saveWindowState)
   mainWindow.on('move', saveWindowState)
 }
+
+app.on('before-quit', () => { app.isQuitting = true })
 
 autoUpdater.on('checking-for-update', () => sendStatus('checking'))
 
@@ -109,12 +154,15 @@ if (!gotTheLock) {
   app.on('second-instance', () => {
     if (mainWindow) {
       if (mainWindow.isMinimized()) mainWindow.restore()
+      if (!mainWindow.isVisible()) mainWindow.show()
       mainWindow.focus()
     }
   })
 
   app.whenReady().then(() => {
+    setCSP()
     createWindow()
+    if (!isDev) createTray()
 
     if (!isDev) {
       setTimeout(() => autoUpdater.checkForUpdates(), 3000)

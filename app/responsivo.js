@@ -61,4 +61,124 @@ document.addEventListener('DOMContentLoaded', function() {
         })
     }
 
+    const html = document.documentElement;
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') html.setAttribute('data-theme', 'dark');
+
+    const headerEl = document.querySelector('header');
+    let themeBtn = document.querySelector('.theme-toggle');
+    if (!themeBtn && headerEl) {
+        themeBtn = document.createElement('button');
+        themeBtn.className = 'theme-toggle';
+        themeBtn.setAttribute('aria-label', 'Cambiar tema');
+        const h1 = headerEl.querySelector('h1');
+        if (h1) {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'header-row';
+            h1.parentNode.insertBefore(wrapper, h1);
+            wrapper.appendChild(h1);
+            wrapper.appendChild(themeBtn);
+        } else {
+            headerEl.appendChild(themeBtn);
+        }
+    }
+    if (themeBtn) {
+        themeBtn.textContent = html.getAttribute('data-theme') === 'dark' ? '☀️' : '🌙';
+        themeBtn.addEventListener('click', () => {
+            const isDark = html.getAttribute('data-theme') === 'dark';
+            html.setAttribute('data-theme', isDark ? '' : 'dark');
+            localStorage.setItem('theme', isDark ? '' : 'dark');
+            themeBtn.textContent = isDark ? '🌙' : '☀️';
+        });
+    }
+
+    if (isChapterPage) {
+        const progressBar = document.createElement('div');
+        progressBar.className = 'read-progress-bar';
+        body.appendChild(progressBar);
+
+        function updateProgress() {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const pct = docHeight > 0 ? Math.min((scrollTop / docHeight) * 100, 100) : 0;
+            progressBar.style.width = pct + '%';
+        }
+        window.addEventListener('scroll', updateProgress);
+        updateProgress();
+
+        const savedPct = localStorage.getItem('scroll_' + normalizeId(fileName));
+        if (savedPct) {
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const targetY = (parseFloat(savedPct) / 100) * docHeight;
+            setTimeout(() => window.scrollTo(0, targetY), 50);
+        }
+
+        let scrollTimer;
+        window.addEventListener('scroll', () => {
+            clearTimeout(scrollTimer);
+            scrollTimer = setTimeout(() => {
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+                localStorage.setItem('scroll_' + normalizeId(fileName), pct.toString());
+            }, 2000);
+        });
+
+        const navLinks = document.querySelectorAll('.chapter-nav-link');
+        let prevLink = null, nextLink = null;
+        navLinks.forEach(link => {
+            if (link.querySelector('.fa-arrow-left')) prevLink = link;
+            if (link.querySelector('.fa-arrow-right')) nextLink = link;
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft' && prevLink) { e.preventDefault(); prevLink.click(); }
+            if (e.key === 'ArrowRight' && nextLink) { e.preventDefault(); nextLink.click(); }
+        });
+
+        const savedSize = localStorage.getItem('fontSize');
+        if (savedSize) html.style.setProperty('--font-size', savedSize);
+
+        const controls = document.createElement('div');
+        controls.className = 'font-controls';
+        controls.innerHTML = '<button id="fontDec" title="Reducir fuente">A−</button><button id="fontInc" title="Aumentar fuente">A+</button>';
+        body.appendChild(controls);
+
+        const baseSizes = [0.85, 0.95, 1.05, 1.15, 1.25, 1.35];
+        let sizeIndex = savedSize ? baseSizes.indexOf(parseFloat(savedSize)) : 2;
+        if (sizeIndex === -1) sizeIndex = 2;
+
+        function applyFontSize() {
+            const val = baseSizes[sizeIndex] + 'em';
+            html.style.setProperty('--font-size', val);
+            localStorage.setItem('fontSize', val);
+        }
+        document.getElementById('fontDec').addEventListener('click', () => {
+            sizeIndex = Math.max(0, sizeIndex - 1);
+            applyFontSize();
+        });
+        document.getElementById('fontInc').addEventListener('click', () => {
+            sizeIndex = Math.min(baseSizes.length - 1, sizeIndex + 1);
+            applyFontSize();
+        });
+    }
+
+    const transition = document.createElement('div');
+    transition.className = 'page-transition';
+    body.appendChild(transition);
+
+    document.addEventListener('click', (e) => {
+        const link = e.target.closest('a');
+        if (!link) return;
+        const href = link.getAttribute('href');
+        if (!href || href.startsWith('#') || href.startsWith('http') || href.startsWith('//') || link.hasAttribute('download') || link.getAttribute('target') === '_blank') return;
+        e.preventDefault();
+        transition.classList.add('active');
+        setTimeout(() => { window.location.href = href; }, 250);
+    });
+
+    window.addEventListener('pageshow', () => {
+        transition.classList.remove('active');
+    });
+
 });
