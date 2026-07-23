@@ -1,4 +1,4 @@
-const CACHE = 'greatbook-v2'
+const CACHE = 'greatbook-v3'
 const assets = [
   '/',
   '/index.html',
