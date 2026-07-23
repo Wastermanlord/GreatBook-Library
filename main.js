@@ -204,7 +204,7 @@ if (!gotTheLock) {
     if (!isDev) createTray()
 
     if (!isDev) {
-      setTimeout(() => autoUpdater.checkForUpdates(), 3000)
+      autoUpdater.checkForUpdates()
     }
 
     if (!isDev) {
