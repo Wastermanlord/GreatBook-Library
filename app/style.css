@@ -1260,6 +1260,60 @@ footer::before {
     text-decoration: underline;
 }
 
+.install-banner {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+    background: var(--secondary-color);
+    color: var(--text-color);
+    padding: 0.8rem 1rem;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+    font-size: 0.85rem;
+    box-shadow: 0 -4px 12px rgba(0,0,0,0.2);
+    animation: fadeIn 0.3s ease-out;
+    flex-wrap: wrap;
+    text-align: center;
+}
+.install-banner.show {
+    display: flex;
+}
+.install-banner span {
+    flex: 1;
+    min-width: 200px;
+}
+#installBtn {
+    background: var(--accent-color);
+    color: var(--primary-color);
+    border: none;
+    padding: 0.5rem 1.2rem;
+    border-radius: 4px;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: var(--transition-smooth);
+}
+#installBtn:hover {
+    background: #c19b2a;
+}
+#installClose {
+    background: none;
+    border: none;
+    color: var(--text-color);
+    font-size: 1.4rem;
+    cursor: pointer;
+    opacity: 0.7;
+    padding: 0 0.3rem;
+    line-height: 1;
+}
+#installClose:hover {
+    opacity: 1;
+}
+
 .offline-banner {
     display: none;
     position: sticky;

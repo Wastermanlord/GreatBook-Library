@@ -2,6 +2,16 @@ try {
   if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js')
 } catch {}
 
+let deferredPrompt = null
+if (!window.matchMedia('(display-mode: standalone)').matches && !navigator.standalone) {
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault()
+    deferredPrompt = e
+    const banner = document.getElementById('installBanner')
+    if (banner && !localStorage.getItem('installDismissed')) banner.classList.add('show')
+  })
+}
+
 document.addEventListener('DOMContentLoaded', function() {
   try {
 
@@ -119,6 +129,22 @@ document.addEventListener('DOMContentLoaded', function() {
             e.target.alt = 'Imagen no disponible';
         }
     }, true);
+
+    const installBanner = document.createElement('div');
+    installBanner.id = 'installBanner';
+    installBanner.className = 'install-banner';
+    installBanner.innerHTML = '<span>Instala GreatBook Library para leer sin conexión</span><button id="installBtn">Instalar</button><button id="installClose" aria-label="Cerrar">&times;</button>';
+    document.body.appendChild(installBanner);
+    document.getElementById('installBtn').addEventListener('click', () => {
+      if (deferredPrompt) {
+        deferredPrompt.prompt()
+        deferredPrompt.userChoice.then(() => { deferredPrompt = null; installBanner.classList.remove('show') })
+      }
+    });
+    document.getElementById('installClose').addEventListener('click', () => {
+      installBanner.classList.remove('show');
+      localStorage.setItem('installDismissed', '1');
+    });
 
     const offlineBanner = document.createElement('div');
     offlineBanner.className = 'offline-banner';
