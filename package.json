@@ -9,7 +9,7 @@
   "scripts": {
     "start": "electron .",
     "dist": "electron-builder --linux AppImage --win portable",
-    "release": "GH_TOKEN=$(gh auth token) electron-builder --linux AppImage --win portable --publish always"
+    "release": "GH_TOKEN=$(gh auth token) electron-builder --linux AppImage --win nsis portable --publish always"
   },
   "dependencies": {
     "electron-updater": "^6.0.0"

@@ -93,32 +93,19 @@ document.addEventListener('DOMContentLoaded', function() {
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme === 'dark') html.setAttribute('data-theme', 'dark');
 
-    const headerEl = document.querySelector('header');
-    let themeBtn = document.querySelector('.theme-toggle');
-    if (!themeBtn && headerEl) {
-        themeBtn = document.createElement('button');
-        themeBtn.className = 'theme-toggle';
-        themeBtn.setAttribute('aria-label', 'Cambiar tema');
-        const h1 = headerEl.querySelector('h1');
-        if (h1) {
-            const wrapper = document.createElement('div');
-            wrapper.className = 'header-row';
-            h1.parentNode.insertBefore(wrapper, h1);
-            wrapper.appendChild(h1);
-            wrapper.appendChild(themeBtn);
-        } else {
-            headerEl.appendChild(themeBtn);
-        }
+    function toggleTheme() {
+        const isDark = html.getAttribute('data-theme') === 'dark';
+        html.setAttribute('data-theme', isDark ? '' : 'dark');
+        localStorage.setItem('theme', isDark ? '' : 'dark');
+        document.querySelectorAll('.theme-btn').forEach(b => { b.textContent = isDark ? '🌙' : '☀️'; });
     }
-    if (themeBtn) {
-        themeBtn.textContent = html.getAttribute('data-theme') === 'dark' ? '☀️' : '🌙';
-        themeBtn.addEventListener('click', () => {
-            const isDark = html.getAttribute('data-theme') === 'dark';
-            html.setAttribute('data-theme', isDark ? '' : 'dark');
-            localStorage.setItem('theme', isDark ? '' : 'dark');
-            themeBtn.textContent = isDark ? '🌙' : '☀️';
-        });
-    }
+
+    const themeFloat = document.createElement('button');
+    themeFloat.className = 'theme-btn theme-float';
+    themeFloat.setAttribute('aria-label', 'Cambiar tema');
+    themeFloat.textContent = html.getAttribute('data-theme') === 'dark' ? '☀️' : '🌙';
+    themeFloat.addEventListener('click', toggleTheme);
+    body.appendChild(themeFloat);
 
     document.addEventListener('error', (e) => {
         if (e.target.tagName === 'IMG' && !e.target.hasAttribute('data-error')) {
@@ -254,7 +241,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const panel = document.createElement('div');
         panel.className = 'settings-panel';
-        panel.innerHTML = '<div class="settings-row"><span class="settings-label">Tamaño</span><button id="fontDec">A−</button><button id="fontInc">A+</button></div><div class="settings-row"><span class="settings-label">Fuente</span><button class="font-toggle-btn" data-font="serif">Serif</button><button class="font-toggle-btn active" data-font="sans">Sans</button></div>';
+        panel.innerHTML = '<div class="settings-row"><span class="settings-label">Tamaño</span><button id="fontDec">A−</button><button id="fontInc">A+</button></div><div class="settings-row"><span class="settings-label">Fuente</span><button class="font-toggle-btn" data-font="serif">Serif</button><button class="font-toggle-btn active" data-font="sans">Sans</button></div><div class="settings-row"><span class="settings-label">Tema</span><button class="theme-btn settings-theme-btn">' + (html.getAttribute('data-theme') === 'dark' ? '☀️' : '🌙') + '</button></div>';
         body.appendChild(panel);
 
         setBtn.addEventListener('click', (e) => { e.stopPropagation(); panel.classList.toggle('show'); });
@@ -295,6 +282,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 localStorage.setItem('fontFamily', btn.dataset.font);
             });
         });
+
+        const panelThemeBtn = panel.querySelector('.settings-theme-btn');
+        if (panelThemeBtn) panelThemeBtn.addEventListener('click', toggleTheme);
     }
 
     const transition = document.createElement('div');
