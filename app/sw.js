@@ -40,7 +40,31 @@ self.addEventListener('fetch', (e) => {
     return
   }
 
-  if (/\.(css|js|png|jpg|jpeg|svg|ico|woff2?)$/i.test(url.pathname)) {
+  if (/\.css$/i.test(url.pathname)) {
+    e.respondWith(
+      caches.match(request).then((cached) => cached || fetch(request).then((res) => {
+        if (res.ok) { const c = res.clone(); caches.open(CACHE).then((cache) => cache.put(request, c)) }
+        return res
+      }))
+    )
+    return
+  }
+
+  if (/\.js$/i.test(url.pathname)) {
+    e.respondWith(
+      caches.match(request).then((cached) => {
+        const fetchPromise = fetch(request).then((res) => {
+          if (res.ok) { const c = res.clone(); caches.open(CACHE).then((cache) => cache.put(request, c)) }
+          return res
+        })
+        if (cached) { fetchPromise.catch(() => {}); return cached }
+        return fetchPromise.catch(() => caches.match('/offline.html'))
+      })
+    )
+    return
+  }
+
+  if (/\.(png|jpg|jpeg|svg|ico|woff2?)$/i.test(url.pathname)) {
     e.respondWith(
       caches.match(request).then((cached) => cached || fetch(request).then((res) => {
         if (res.ok) { const c = res.clone(); caches.open(CACHE).then((cache) => cache.put(request, c)) }
