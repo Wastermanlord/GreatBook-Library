@@ -3,6 +3,7 @@ try {
 } catch {}
 
 document.addEventListener('DOMContentLoaded', function() {
+  try {
 
     const menuToggle = document.querySelector('.menu-toggle');
     const circle = document.querySelector('.circle');
@@ -198,4 +199,5 @@ document.addEventListener('DOMContentLoaded', function() {
         transition.classList.remove('active');
     });
 
+  } catch(e) { console.error('UI:', e); }
 });
