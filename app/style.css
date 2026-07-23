@@ -79,9 +79,11 @@ table {
     background: var(--chapter-nav-bg);
 }
 [data-theme="dark"] .chapter-nav-link,
+[data-theme="dark"] .chapter-nav-link i,
 [data-theme="dark"] .chapter-nav-link:hover {
     background: #2a2d33;
     border-color: rgba(255,255,255,0.08);
+    color: #e0e0e0;
 }
 [data-theme="dark"] .circle {
     background: #2a2d33;
@@ -956,7 +958,6 @@ main {
     align-items: center;
     justify-content: center;
     gap: 6px;
-    color: var(--primary-color);
     text-decoration: none;
     font-weight: 600;
     width: 44px;
@@ -967,6 +968,10 @@ main {
     box-shadow: var(--shadow-soft);
     transition: var(--transition-smooth);
     -webkit-tap-highlight-color: transparent;
+}
+.chapter-nav-link,
+.chapter-nav-link i {
+    color: var(--primary-color);
 }
 
 .chapter-nav-link:hover {
