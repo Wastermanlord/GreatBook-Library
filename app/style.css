@@ -80,6 +80,7 @@ table {
 }
 [data-theme="dark"] .chapter-nav-link,
 [data-theme="dark"] .chapter-nav-link i,
+[data-theme="dark"] .chapter-nav-link i::before,
 [data-theme="dark"] .chapter-nav-link:hover {
     background: #2a2d33;
     border-color: rgba(255,255,255,0.08);
@@ -963,19 +964,18 @@ main {
     width: 44px;
     height: 44px;
     border-radius: 50%;
-    background: #ffffff;
     border: 1px solid rgba(0, 0, 0, 0.08);
     box-shadow: var(--shadow-soft);
     transition: var(--transition-smooth);
     -webkit-tap-highlight-color: transparent;
 }
 .chapter-nav-link,
-.chapter-nav-link i {
+.chapter-nav-link i,
+.chapter-nav-link i::before {
     color: var(--primary-color);
 }
 
 .chapter-nav-link:hover {
-    background: #ffffff;
     border-color: rgba(0, 0, 0, 0.2);
     transform: translateY(-2px);
 }
