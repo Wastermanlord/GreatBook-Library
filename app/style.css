@@ -436,6 +436,10 @@ main {
     transform: translateX(-50%);
 }
 
+.menu a {
+    text-decoration: none;
+    display: block;
+}
 .menu {
     display: flex;
     flex-wrap: wrap;
@@ -729,54 +733,6 @@ main {
     font-size: 1.1em;
     line-height: 1.8;
     color: var(--text-secondary);
-}
-
-.download-menu {
-    background: #fff;
-    padding: 4%;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    max-width: 800px;
-    margin: 20px auto;
-}
-
-.download-menu h2 {
-    margin-bottom: 4%;
-    font-size: 2em;
-}
-
-.download-menu ul {
-    list-style: none;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.download-menu ul li {
-    margin: 4% 0;
-    width: 100%;
-}
-
-.download-menu ul li a {
-    text-decoration: none;
-    color: #333;
-    font-size: 1.5em;
-    display: flex;
-    align-items: center;
-    transition: color 0.3s;
-    width: 100%;
-}
-
-.download-menu ul li a img {
-    width: 2.5em;
-    height: 2.5em;
-    margin-right: 1em;
-}
-
-.download-menu ul li a:hover {
-    color: #007BFF;
 }
 
 .chapter-content {

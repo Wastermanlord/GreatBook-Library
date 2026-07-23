@@ -217,6 +217,10 @@
       .dl-card .current-badge { right: 8px; }
     }
   </style>
+    <link rel="manifest" href="manifest.json">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <meta name="description" content="GreatBook Library - Lectura offline. Grandes Libros y Grandes promesas.">
 </head>
 <body>
   <header>
@@ -254,7 +258,7 @@
   <div class="page-section">
     <div class="version-chip" id="versionChip">
       <span class="dot"></span>
-      <span id="versionDisplay">v1.0.0</span>
+      <span id="versionDisplay">v1.0.3</span>
     </div>
     <div class="os-label" id="platformDisplay"></div>
 
@@ -365,6 +369,13 @@
       const names = { linux: 'Linux', windows: 'Windows', android: 'Android' }
       platformDisplay.textContent = detected ? 'Detectamos ' + (names[detected] || detected) : ''
       highlightCard(detected)
+    }
+
+    if (!isDesktopApp) {
+      fetch('https://api.github.com/repos/Wastermanlord/GreatBook-Library/releases/latest')
+        .then(r => r.json())
+        .then(d => { if (d.tag_name) versionDisplay.textContent = d.tag_name })
+        .catch(() => {})
     }
 
     function checkForUpdates() { if (window.electronAPI) window.electronAPI.checkUpdate() }

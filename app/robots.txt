@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://greatbook-library.netlify.app/sitemap.xml

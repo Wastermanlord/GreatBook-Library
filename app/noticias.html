@@ -10,6 +10,10 @@
 
 
     <link rel="icon" type="image/png" href="logo.png" />
+    <link rel="manifest" href="manifest.json">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <meta name="description" content="GreatBook Library - Lectura offline. Grandes Libros y Grandes promesas.">
 </head>
 
 <body>
@@ -52,8 +56,26 @@
 
         <section class="news-list">
             <article class="news-item">
+                <h3>— v1.0.3 — Dark Mode, lectura mejorada y PWA (22/Julio/2026) —</h3>
+                <p>Grandes mejoras en la experiencia de lectura:</p>
+                <ul class="news-links" style="list-style: disc; margin-top: 15px; padding-left: 20px; color: var(--text-secondary);">
+                    <li><strong>Dark Mode:</strong> Botón en el header para alternar tema oscuro/claro. Persiste entre sesiones.</li>
+                    <li><strong>Posición de lectura:</strong> Guarda el porcentaje de avance en cada capítulo y lo restaura al volver.</li>
+                    <li><strong>Barra de progreso:</strong> Línea dorada en la parte superior que avanza con el scroll.</li>
+                    <li><strong>Tamaño de fuente ajustable:</strong> Botones A+/A− en cada capítulo, con 6 niveles. Se guarda tu preferencia.</li>
+                    <li><strong>Atajos de teclado:</strong> Flechas ← y → para navegar entre capítulos al instante.</li>
+                    <li><strong>Transiciones suaves:</strong> Fade entre páginas al navegar por la biblioteca.</li>
+                    <li><strong>Seguridad CSP:</strong> Cabeceras de seguridad en la app de escritorio.</li>
+                    <li><strong>Tray icon:</strong> La app se minimiza a la bandeja del sistema al cerrar.</li>
+                    <li><strong>PWA:</strong> El sitio web ahora es instalable como app en celulares y funciona offline.</li>
+                    <li><strong>SEO:</strong> Meta tags, sitemap, robots.txt y Open Graph para mejor visibilidad.</li>
+                    <li><strong>Google Fonts optimizadas:</strong> Reducción de peticiones duplicadas para carga más rápida.</li>
+                </ul>
+            </article>
+
+            <article class="news-item">
                 <h3>— App de escritorio y GitHub v1.0.2 (22/Julio/2026) —</h3>
-                <p>Lanzamos la versión 1.0.1 de la app de escritorio con varias mejoras internas y de infraestructura:</p>
+                <p>Lanzamos la versión 1.0.2 de la app de escritorio con varias mejoras internas y de infraestructura:</p>
                 <ul class="news-links" style="list-style: disc; margin-top: 15px; padding-left: 20px; color: var(--text-secondary);">
                     <li><strong>App de escritorio v1.0.2:</strong> Disponible para Linux (AppImage) y Windows (Portable) desde <a href="descargas.html">Descargas</a>.</li>
                     <li><strong>Auto-actualización:</strong> La app detecta automáticamente nuevas versiones al iniciar y puede actualizarse sola desde GitHub.</li>
@@ -135,8 +157,6 @@
         </section>
     </div>
 </main>
-
-<br><br>
 
 <footer>
 <p>&copy; 2026 GreatBook Library. Todos los derechos reservados.</p>

@@ -1,3 +1,7 @@
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js')
+}
+
 document.addEventListener('DOMContentLoaded', function() {
 
     const menuToggle = document.querySelector('.menu-toggle');
@@ -12,6 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
         isMenuOpen = true;
         circle.classList.add('expand');
         menuToggle.classList.add('active');
+        menuToggle.setAttribute('aria-expanded', 'true');
         body.classList.add('menu-open');
         menuContainer.classList.add('active');
         menuItems.forEach((li, index) => {
@@ -22,6 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function closeMenu() {
         isMenuOpen = false;
         menuToggle.classList.remove('active');
+        menuToggle.setAttribute('aria-expanded', 'false');
         circle.classList.remove('expand');
         body.classList.remove('menu-open');
         menuItems.forEach((li) => { li.classList.remove('animate'); });

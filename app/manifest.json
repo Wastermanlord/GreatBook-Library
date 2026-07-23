@@ -1,0 +1,13 @@
+{
+  "name": "GreatBook Library",
+  "short_name": "GreatBook",
+  "description": "Lectura offline — Grandes Libros y Grandes promesas",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f8f9fa",
+  "theme_color": "#0d1b2a",
+  "orientation": "portrait",
+  "icons": [
+    { "src": "logo.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
