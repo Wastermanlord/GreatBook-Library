@@ -19,12 +19,27 @@ document.addEventListener('DOMContentLoaded', function() {
 
     let isMenuOpen = false;
 
-    const floatSelectors = '.settings-toggle,.settings-panel,.back-to-top,.read-progress-bar,.page-transition,.font-controls';
-    const floatStyle = document.createElement('style');
-    floatStyle.id = 'menu-float-hider';
-    floatStyle.textContent = floatSelectors + '{display:none!important;visibility:hidden!important;pointer-events:none!important}';
-    function hideFloats() { if (!document.getElementById('menu-float-hider')) document.head.appendChild(floatStyle); }
-    function showFloats() { const s = document.getElementById('menu-float-hider'); if (s) s.remove(); }
+    const floatBlockStyle = document.createElement('style');
+    floatBlockStyle.id = 'menu-float-block';
+    floatBlockStyle.textContent =
+      'html.mobile-menu-active .settings-toggle,' +
+      'html.mobile-menu-active .settings-panel,' +
+      'html.mobile-menu-active .back-to-top,' +
+      'html.mobile-menu-active .read-progress-bar,' +
+      'html.mobile-menu-active .page-transition,' +
+      'html.mobile-menu-active .font-controls{' +
+      'display:none!important;visibility:hidden!important;opacity:0!important;pointer-events:none!important;z-index:-1!important}';
+    const html = document.documentElement;
+
+    function hideFloats() {
+      html.classList.add('mobile-menu-active');
+      if (!document.getElementById('menu-float-block')) document.head.appendChild(floatBlockStyle);
+    }
+    function showFloats() {
+      html.classList.remove('mobile-menu-active');
+      const s = document.getElementById('menu-float-block');
+      if (s) s.remove();
+    }
 
     function openMenu() {
         isMenuOpen = true;
@@ -94,7 +109,6 @@ document.addEventListener('DOMContentLoaded', function() {
         })
     }
 
-    const html = document.documentElement;
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme === 'dark') html.setAttribute('data-theme', 'dark');
 
