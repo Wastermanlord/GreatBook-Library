@@ -100,7 +100,10 @@ body {
     box-sizing: border-box;
 }
 
-a, button {
+a {
+    text-decoration: none;
+}
+button {
     -webkit-tap-highlight-color: transparent;
 }
 
@@ -1077,7 +1080,6 @@ footer::before {
 
 .news-links a {
     color: #1f6f3a;
-    text-decoration: none;
     font-weight: 600;
 }
 
