@@ -396,6 +396,12 @@ header::after {
 body.menu-open {
     overflow: hidden;
 }
+body.menu-open .theme-float,
+body.menu-open .settings-toggle,
+body.menu-open .settings-panel,
+body.menu-open .back-to-top {
+    display: none !important;
+}
 
 main {
     flex-grow: 1;

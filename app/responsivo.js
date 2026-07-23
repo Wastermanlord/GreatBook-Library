@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
         menuToggle.setAttribute('aria-expanded', 'true');
         body.classList.add('menu-open');
         menuContainer.classList.add('active');
-        menuItems.forEach((li, index) => {
+        document.querySelectorAll('.mobile-menu-list li').forEach((li, index) => {
             setTimeout(() => { li.classList.add('animate'); }, 150 + (index * 50));
         });
     }
@@ -93,11 +93,23 @@ document.addEventListener('DOMContentLoaded', function() {
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme === 'dark') html.setAttribute('data-theme', 'dark');
 
+    const menuList = document.querySelector('.mobile-menu-list');
+    const menuThemeLi = document.createElement('li');
+    menuThemeLi.innerHTML = '<a href="#" class="menu-theme-link" id="menuThemeToggle">' + (savedTheme === 'dark' ? '☀️ Tema claro' : '🌙 Tema oscuro') + '</a>';
+    if (menuList) menuList.appendChild(menuThemeLi);
+    const menuThemeLink = document.getElementById('menuThemeToggle');
+    const menuThemeItems = document.querySelectorAll('.mobile-menu-list li');
+    if (menuThemeLink) {
+        menuThemeLink.addEventListener('click', (e) => { e.preventDefault(); toggleTheme(); closeMenu(); });
+    }
+
     function toggleTheme() {
         const isDark = html.getAttribute('data-theme') === 'dark';
         html.setAttribute('data-theme', isDark ? '' : 'dark');
         localStorage.setItem('theme', isDark ? '' : 'dark');
         document.querySelectorAll('.theme-btn').forEach(b => { b.textContent = isDark ? '🌙' : '☀️'; });
+        const menuLink = document.getElementById('menuThemeToggle');
+        if (menuLink) menuLink.textContent = isDark ? '🌙 Tema oscuro' : '☀️ Tema claro';
     }
 
     const themeFloat = document.createElement('button');
