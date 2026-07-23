@@ -231,7 +231,7 @@ header::after {
     border: none;
     cursor: pointer;
     padding: 15px;
-    z-index: 1200;
+    z-index: 99999;
     position: relative;
     display: flex;
     align-items: center;
@@ -371,11 +371,7 @@ header::after {
 body.menu-open {
     overflow: hidden;
 }
-body.menu-open .settings-toggle,
-body.menu-open .settings-panel,
-body.menu-open .back-to-top {
-    display: none !important;
-}
+
 
 main {
     flex-grow: 1;

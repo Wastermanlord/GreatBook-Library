@@ -19,6 +19,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     let isMenuOpen = false;
 
+    const floats = '.settings-toggle,.settings-panel,.back-to-top,.read-progress-bar,.page-transition,.font-controls';
+    function hideFloats() { document.querySelectorAll(floats).forEach(el => { el.dataset.oldDisplay = el.style.display || ''; el.style.display = 'none'; }); }
+    function showFloats() { document.querySelectorAll(floats).forEach(el => { el.style.display = el.dataset.oldDisplay || ''; delete el.dataset.oldDisplay; }); }
+
     function openMenu() {
         isMenuOpen = true;
         circle.classList.add('expand');
@@ -26,6 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
         menuToggle.setAttribute('aria-expanded', 'true');
         body.classList.add('menu-open');
         menuContainer.classList.add('active');
+        hideFloats();
         document.querySelectorAll('.mobile-menu-list li').forEach((li, index) => {
             setTimeout(() => { li.classList.add('animate'); }, 150 + (index * 50));
         });
@@ -37,6 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
         menuToggle.setAttribute('aria-expanded', 'false');
         circle.classList.remove('expand');
         body.classList.remove('menu-open');
+        showFloats();
         document.querySelectorAll('.mobile-menu-list li').forEach((li) => { li.classList.remove('animate'); });
         setTimeout(() => { if (!isMenuOpen) menuContainer.classList.remove('active'); }, 500);
     }
