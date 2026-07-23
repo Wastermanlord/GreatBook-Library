@@ -3,14 +3,10 @@ try {
 } catch {}
 
 let deferredPrompt = null
-if (!window.matchMedia('(display-mode: standalone)').matches && !navigator.standalone) {
-  window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault()
-    deferredPrompt = e
-    const banner = document.getElementById('installBanner')
-    if (banner && !localStorage.getItem('installDismissed')) banner.classList.add('show')
-  })
-}
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault()
+  deferredPrompt = e
+})
 
 document.addEventListener('DOMContentLoaded', function() {
   try {
@@ -134,6 +130,7 @@ document.addEventListener('DOMContentLoaded', function() {
     installBanner.className = 'install-banner';
     installBanner.innerHTML = '<span>Instala GreatBook Library para leer sin conexión</span><button id="installBtn">Instalar</button><button id="installClose" aria-label="Cerrar">&times;</button>';
     document.body.appendChild(installBanner);
+    if (deferredPrompt && !localStorage.getItem('installDismissed')) installBanner.classList.add('show');
     document.getElementById('installBtn').addEventListener('click', () => {
       if (deferredPrompt) {
         deferredPrompt.prompt()
