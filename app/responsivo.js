@@ -216,10 +216,25 @@ document.addEventListener('DOMContentLoaded', function() {
         const savedSize = localStorage.getItem('fontSize');
         if (savedSize) html.style.setProperty('--font-size', savedSize);
 
-        const controls = document.createElement('div');
-        controls.className = 'font-controls';
-        controls.innerHTML = '<button id="fontDec" title="Reducir fuente">A−</button><button id="fontInc" title="Aumentar fuente">A+</button>';
-        body.appendChild(controls);
+        const savedFont = localStorage.getItem('fontFamily');
+        if (savedFont === 'sans') html.style.setProperty('--font-body', "'Poppins', sans-serif");
+        else if (savedFont === 'serif') html.style.setProperty('--font-body', "'Playfair Display', serif");
+
+        const setBtn = document.createElement('button');
+        setBtn.className = 'settings-toggle';
+        setBtn.textContent = '⚙';
+        setBtn.setAttribute('aria-label', 'Ajustes de lectura');
+        body.appendChild(setBtn);
+
+        const panel = document.createElement('div');
+        panel.className = 'settings-panel';
+        panel.innerHTML = '<div class="settings-row"><span class="settings-label">Tamaño</span><button id="fontDec">A−</button><button id="fontInc">A+</button></div><div class="settings-row"><span class="settings-label">Fuente</span><button class="font-toggle-btn" data-font="serif">Serif</button><button class="font-toggle-btn active" data-font="sans">Sans</button></div>';
+        body.appendChild(panel);
+
+        setBtn.addEventListener('click', (e) => { e.stopPropagation(); panel.classList.toggle('show'); });
+        document.addEventListener('click', (e) => {
+            if (!panel.contains(e.target) && e.target !== setBtn) panel.classList.remove('show');
+        });
 
         const baseSizes = [0.85, 0.95, 1.05, 1.15, 1.25, 1.35];
         let sizeIndex = savedSize ? baseSizes.indexOf(parseFloat(savedSize)) : 2;
@@ -237,6 +252,22 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('fontInc').addEventListener('click', () => {
             sizeIndex = Math.min(baseSizes.length - 1, sizeIndex + 1);
             applyFontSize();
+        });
+
+        const fontBtns = panel.querySelectorAll('.font-toggle-btn');
+        if (savedFont) {
+            fontBtns.forEach(b => {
+                b.classList.toggle('active', b.dataset.font === savedFont);
+            });
+        }
+        fontBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                fontBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const font = btn.dataset.font === 'serif' ? "'Playfair Display', serif" : "'Poppins', sans-serif";
+                html.style.setProperty('--font-body', font);
+                localStorage.setItem('fontFamily', btn.dataset.font);
+            });
         });
     }
 
