@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
         menuToggle.setAttribute('aria-expanded', 'false');
         circle.classList.remove('expand');
         body.classList.remove('menu-open');
-        menuItems.forEach((li) => { li.classList.remove('animate'); });
+        document.querySelectorAll('.mobile-menu-list li').forEach((li) => { li.classList.remove('animate'); });
         setTimeout(() => { if (!isMenuOpen) menuContainer.classList.remove('active'); }, 500);
     }
 
