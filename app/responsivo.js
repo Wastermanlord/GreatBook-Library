@@ -108,13 +108,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (menuLink) menuLink.textContent = isDark ? '🌙 Tema oscuro' : '☀️ Tema claro';
     }
 
-    const themeFloat = document.createElement('button');
-    themeFloat.className = 'theme-btn theme-float';
-    themeFloat.setAttribute('aria-label', 'Cambiar tema');
-    themeFloat.textContent = html.getAttribute('data-theme') === 'dark' ? '☀️' : '🌙';
-    themeFloat.addEventListener('click', toggleTheme);
-    body.appendChild(themeFloat);
-
     document.addEventListener('error', (e) => {
         if (e.target.tagName === 'IMG' && !e.target.hasAttribute('data-error')) {
             e.target.setAttribute('data-error', '1');
