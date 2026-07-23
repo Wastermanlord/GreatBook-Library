@@ -19,9 +19,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     let isMenuOpen = false;
 
-    const floats = '.settings-toggle,.settings-panel,.back-to-top,.read-progress-bar,.page-transition,.font-controls';
-    function hideFloats() { document.querySelectorAll(floats).forEach(el => { el.dataset.oldDisplay = el.style.display || ''; el.style.display = 'none'; }); }
-    function showFloats() { document.querySelectorAll(floats).forEach(el => { el.style.display = el.dataset.oldDisplay || ''; delete el.dataset.oldDisplay; }); }
+    const floatSelectors = '.settings-toggle,.settings-panel,.back-to-top,.read-progress-bar,.page-transition,.font-controls';
+    const floatStyle = document.createElement('style');
+    floatStyle.id = 'menu-float-hider';
+    floatStyle.textContent = floatSelectors + '{display:none!important;visibility:hidden!important;pointer-events:none!important}';
+    function hideFloats() { if (!document.getElementById('menu-float-hider')) document.head.appendChild(floatStyle); }
+    function showFloats() { const s = document.getElementById('menu-float-hider'); if (s) s.remove(); }
 
     function openMenu() {
         isMenuOpen = true;
@@ -95,23 +98,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme === 'dark') html.setAttribute('data-theme', 'dark');
 
-    const menuList = document.querySelector('.mobile-menu-list');
-    const menuThemeLi = document.createElement('li');
-    menuThemeLi.innerHTML = '<a href="#" class="menu-theme-link" id="menuThemeToggle">' + (savedTheme === 'dark' ? '☀️ Tema claro' : '🌙 Tema oscuro') + '</a>';
-    if (menuList) menuList.appendChild(menuThemeLi);
-    const menuThemeLink = document.getElementById('menuThemeToggle');
-    const menuThemeItems = document.querySelectorAll('.mobile-menu-list li');
-    if (menuThemeLink) {
-        menuThemeLink.addEventListener('click', (e) => { e.preventDefault(); toggleTheme(); closeMenu(); });
-    }
-
     function toggleTheme() {
         const isDark = html.getAttribute('data-theme') === 'dark';
         html.setAttribute('data-theme', isDark ? '' : 'dark');
         localStorage.setItem('theme', isDark ? '' : 'dark');
         document.querySelectorAll('.theme-btn').forEach(b => { b.textContent = isDark ? '🌙' : '☀️'; });
-        const menuLink = document.getElementById('menuThemeToggle');
-        if (menuLink) menuLink.textContent = isDark ? '🌙 Tema oscuro' : '☀️ Tema claro';
     }
 
     document.addEventListener('error', (e) => {
