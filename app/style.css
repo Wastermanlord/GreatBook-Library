@@ -82,9 +82,7 @@ table {
 [data-theme="dark"] .chapter-nav-link i,
 [data-theme="dark"] .chapter-nav-link i::before,
 [data-theme="dark"] .chapter-nav-link:hover {
-    background: #2a2d33;
     border-color: rgba(255,255,255,0.08);
-    color: #e0e0e0;
 }
 [data-theme="dark"] .circle {
     background: #2a2d33;
@@ -951,7 +949,7 @@ main {
     justify-content: center;
     gap: 16px;
     margin: 24px 0 0;
-    background: #ffffff;
+    background: var(--card-background);
 }
 
 .chapter-nav-link {
@@ -965,6 +963,7 @@ main {
     height: 44px;
     border-radius: 50%;
     border: 1px solid rgba(0, 0, 0, 0.08);
+    background: var(--card-background);
     box-shadow: var(--shadow-soft);
     transition: var(--transition-smooth);
     -webkit-tap-highlight-color: transparent;
@@ -972,11 +971,11 @@ main {
 .chapter-nav-link,
 .chapter-nav-link i,
 .chapter-nav-link i::before {
-    color: var(--primary-color);
+    color: var(--text-primary);
 }
 
 .chapter-nav-link:hover {
-    border-color: rgba(0, 0, 0, 0.2);
+    border-color: var(--accent-color);
     transform: translateY(-2px);
 }
 
