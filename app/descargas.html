@@ -331,25 +331,30 @@
       platformDisplay.textContent = 'Estás en ' + (p === 'win32' ? 'Windows' : 'Linux')
       highlightCard(p)
 
+      function renderUpdateUI(inner) {
+        statusArea.innerHTML = inner + '<button class="btn" onclick="checkForUpdates()" style="margin-top:12px">Buscar actualizaciones</button>'
+      }
+
       window.electronAPI.onUpdateStatus((status) => {
-        statusArea.innerHTML = ''
         switch (status) {
           case 'checking':
-            statusArea.innerHTML = '<div class="spinner"></div><p class="status-text">Buscando actualizaciones...</p>'
+            renderUpdateUI('<div class="spinner"></div><p class="status-text">Buscando actualizaciones...</p>')
             break
           case 'not-available':
-            statusArea.innerHTML = '<p class="status-text">Tienes la versión más reciente</p><p class="status-sub">GreatBook Library v' + window.electronAPI.getVersion() + '</p><button class="btn" onclick="checkForUpdates()" style="margin-top:12px">Buscar de nuevo</button>'
+            renderUpdateUI('<p class="status-text">Tienes la versión más reciente</p><p class="status-sub">GreatBook Library v' + window.electronAPI.getVersion() + '</p>')
             break
           case 'available':
-            statusArea.innerHTML = '<p class="status-text">Nueva versión disponible</p><button class="btn" onclick="downloadUpdate()">Descargar actualización</button>'
+            renderUpdateUI('<p class="status-text">Nueva versión disponible</p><button class="btn" onclick="downloadUpdate()" style="margin-right:8px">Descargar actualización</button>')
             break
           case 'downloaded':
-            statusArea.innerHTML = '<p class="status-text">Actualización lista</p><p class="status-sub">Se instalará al cerrar la app</p><button class="btn" onclick="installNow()">Instalar ahora</button>'
+            renderUpdateUI('<p class="status-text">Actualización lista</p><p class="status-sub">Se instalará al cerrar la app</p><button class="btn" onclick="installNow()" style="margin-right:8px">Instalar ahora</button>')
             break
           default:
-            statusArea.innerHTML = '<button class="btn" onclick="checkForUpdates()">Buscar actualizaciones</button>'
+            renderUpdateUI('<p class="status-text">Presiona "Buscar actualizaciones" para verificar</p>')
         }
       })
+
+      renderUpdateUI('<p class="status-text">Presiona "Buscar actualizaciones" para verificar</p>')
 
       window.electronAPI.onUpdateInfo((info) => {
         const p = statusArea.querySelector('.status-sub')
