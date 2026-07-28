@@ -65,6 +65,24 @@
 
     <script src="responsivo.js"></script>
     <script>
+    async function fetchChapter(id) {
+      // Try cached content first (Android updater)
+      if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.Filesystem) {
+        try {
+          const { Filesystem } = window.Capacitor.Plugins;
+          const ret = await Filesystem.readFile({
+            path: 'content_cache/content/' + id + '.json',
+            directory: 'DATA'
+          });
+          return JSON.parse(ret.data);
+        } catch {}
+      }
+      // Fallback to bundled assets
+      const res = await fetch('content/' + id + '.json');
+      if (!res.ok) throw new Error('Not found');
+      return res.json();
+    }
+
     (async () => {
         const params = new URLSearchParams(window.location.search);
         const id = params.get('id');
@@ -81,9 +99,7 @@
         }
 
         try {
-            const res = await fetch('content/' + id + '.json');
-            if (!res.ok) throw new Error('Not found');
-            const data = await res.json();
+            const data = await fetchChapter(id);
 
             document.title = data.title + ' | GreatBook';
             section.innerHTML = data.content;

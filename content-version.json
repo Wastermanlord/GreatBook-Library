@@ -1,5 +1,5 @@
 {
-  "version": "2026-07-28-2",
+  "version": "2026-07-28-3",
   "files": [
     "index.html", "catalogo.html", "noticias.html", "descargas.html", "terminos.html",
     "404.html", "offline.html", "chapter.html",
@@ -9,7 +9,7 @@
     "content/fanfic_2_001.json", "content/fanfic_2_002.json",
     "content/original_0001_prologo.json", "content/original_0002_0001.json",
     "content/poesia_1_001.json",
-    "style.css", "responsivo.js", "manifest.json", "sw.js", "logo.png",
+    "style.css", "responsivo.js", "updater.js", "manifest.json", "sw.js", "logo.png",
     "poster/1.png", "poster/3.png", "poster/4.png", "poster/5.jpg", "poster/6.jpg",
     "poster/ds/android.png", "poster/ds/linux.png", "poster/ds/windows.png"
   ]
