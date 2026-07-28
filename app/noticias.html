@@ -58,14 +58,25 @@
 
         <section class="news-list">
             <article class="news-item">
+                <h3>— v1.0.9 — Correcciones y mejoras de consistencia (28/Julio/2026) —</h3>
+                <p>Actualización de mantenimiento con fixes importantes y mejoras en la experiencia general.</p>
+                <ul class="news-list-inline">
+                    <li><strong>Fix continuar leyendo:</strong> El botón "Continuar leyendo" ahora carga correctamente el capítulo desde la nueva arquitectura data-driven.</li>
+                    <li><strong>Fix fallback de contenido:</strong> Corregido un bug donde los capítulos HTML antiguos no cargaban en la app de escritorio.</li>
+                    <li><strong>Nombre Android corregido:</strong> La app ahora se muestra como "GreatBook" en el celular, no "GreatBookLibrary".</li>
+                    <li><strong>Sincronización Android:</strong> La carpeta app/ del proyecto Android está sincronizada con la última versión.</li>
+                </ul>
+            </article>
+
+            <article class="news-item">
                 <h3>— v1.0.8 — App Android nativa, arquitectura data-driven y más (28/Julio/2026) —</h3>
                 <p>Gran actualización: GreatBook ahora tiene app nativa para Android, nueva arquitectura interna y mejoras en la experiencia de lectura.</p>
                 <ul class="news-list-inline">
                     <li><strong>App Android nativa:</strong> GreatBook ahora se puede instalar como app nativa en Android mediante un archivo APK. Sin necesidad de navegador ni Play Store — descargalo e instalalo directamente.</li>
                     <li><strong>Todo offline de fábrica:</strong> La APK incluye todos los capítulos, portadas y recursos dentro del instalador. No necesitás internet ni esperar descargas después de instalar.</li>
                     <li><strong>Icono propio:</strong> La app ahora tiene su propio icono en los celulares, identificable con el logo de GreatBook.</li>
-                    <li><strong>Compatibilidad:</strong> Funciona en Android 7.0 (Nougat) en adelante. Misma experiencia de lectura que la PWA pero como app nativa.</li>
-                    <li><strong>Distribución directa:</strong> El APK se comparte directamente por WhatsApp o cualquier medio. Sin Play Store, sin restricciones.</li>
+                    <li><strong>Compatibilidad:</strong> Funciona en Android 7.0 (Nougat) en adelante. Misma experiencia de lectura que la versión web pero como app nativa.</li>
+                    <li><strong>Distribución directa:</strong> El APK se descarga desde <a href="https://github.com/Wastermanlord/GreatBook-Library/releases" target="_blank">GitHub Releases</a> o desde la sección de descargas. Sin Play Store, sin restricciones.</li>
                     <li><strong>Arquitectura data-driven:</strong> Los capítulos ahora se cargan desde archivos JSON en vez de HTML individuales. Un solo template renderiza todo. Agregar un capítulo nuevo es crear un JSON, no copiar y pegar un HTML entero.</li>
                     <li><strong>Navegación por swipe:</strong> En dispositivos móviles, podés deslizar el dedo a la izquierda o derecha para ir al capítulo anterior o siguiente. Sin necesidad de tocar botones.</li>
                     <li><strong>Iconos SVG inline:</strong> Se reemplazaron Font Awesome y emojis por iconos SVG embebidos en el CSS. Funcionan 100% offline, sin depender de CDN externas.</li>
