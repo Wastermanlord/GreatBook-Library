@@ -42,7 +42,6 @@ async function updateContent() {
     }
     if (!ok) { fs.rmSync(contentDir, { recursive: true, force: true }); return false }
     fs.writeFileSync(verFile, JSON.stringify(remote))
-    contentRoot = contentDir
     return files.length
   } catch { return false }
 }
