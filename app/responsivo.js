@@ -116,13 +116,13 @@ document.addEventListener('DOMContentLoaded', function() {
         const isDark = html.getAttribute('data-theme') === 'dark';
         html.setAttribute('data-theme', isDark ? '' : 'dark');
         localStorage.setItem('theme', isDark ? '' : 'dark');
-        document.querySelectorAll('.theme-btn').forEach(b => { b.textContent = isDark ? '🌙' : '☀️'; });
+        document.querySelectorAll('.theme-btn').forEach(b => { b.innerHTML = isDark ? '<span class="gb-icon gb-icon-sun"></span>' : '<span class="gb-icon gb-icon-moon"></span>'; });
     }
 
     document.addEventListener('error', (e) => {
         if (e.target.tagName === 'IMG' && !e.target.hasAttribute('data-error')) {
             e.target.setAttribute('data-error', '1');
-            e.target.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect fill="%23e0e0e0" width="100" height="100"/><text x="50" y="55" text-anchor="middle" font-size="32" fill="%23999">📖</text></svg>';
+            e.target.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect fill="%23e0e0e0" width="100" height="100" rx="8"/><text x="50" y="58" text-anchor="middle" font-size="36" fill="%23999">📖</text></svg>';
             e.target.style.objectFit = 'contain';
             e.target.style.padding = '20%';
             e.target.alt = 'Imagen no disponible';
@@ -248,13 +248,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const setBtn = document.createElement('button');
         setBtn.className = 'settings-toggle';
-        setBtn.textContent = '⚙';
+        setBtn.innerHTML = '<span class="gb-icon gb-icon-gear"></span>';
         setBtn.setAttribute('aria-label', 'Ajustes de lectura');
         body.appendChild(setBtn);
 
         const panel = document.createElement('div');
         panel.className = 'settings-panel';
-        panel.innerHTML = '<div class="settings-row"><span class="settings-label">Tamaño</span><button id="fontDec">A−</button><button id="fontInc">A+</button></div><div class="settings-row"><span class="settings-label">Fuente</span><button class="font-toggle-btn" data-font="serif">Serif</button><button class="font-toggle-btn active" data-font="sans">Sans</button></div><div class="settings-row"><span class="settings-label">Tema</span><button class="theme-btn settings-theme-btn">' + (html.getAttribute('data-theme') === 'dark' ? '☀️' : '🌙') + '</button></div>';
+        panel.innerHTML = '<div class="settings-row"><span class="settings-label">Tamaño</span><button id="fontDec">A−</button><button id="fontInc">A+</button></div><div class="settings-row"><span class="settings-label">Fuente</span><button class="font-toggle-btn" data-font="serif">Serif</button><button class="font-toggle-btn active" data-font="sans">Sans</button></div><div class="settings-row"><span class="settings-label">Tema</span><button class="theme-btn settings-theme-btn">' + (html.getAttribute('data-theme') === 'dark' ? '<span class="gb-icon gb-icon-sun"></span>' : '<span class="gb-icon gb-icon-moon"></span>') + '</button></div>';
         body.appendChild(panel);
 
         setBtn.addEventListener('click', (e) => { e.stopPropagation(); panel.classList.toggle('show'); });

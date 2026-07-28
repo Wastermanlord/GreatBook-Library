@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cargando... | GreatBook</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="logo.png" />
+    <link rel="manifest" href="manifest.json">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <meta name="description" content="GreatBook Library - Lectura offline. Grandes Libros y Grandes promesas.">
+</head>
+<body>
+    <div id="top"></div>
+
+    <header>
+        <h1>GreatBook Library</h1>
+    </header>
+
+    <nav class="nav-desktop">
+        <ul class="desktop-menu">
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="catalogo.html">Catálogo</a></li>
+            <li><a href="noticias.html">Noticias</a></li>
+            <li><a href="terminos.html">Términos</a></li>
+            <li><a href="descargas.html">Descargar</a></li>
+        </ul>
+    </nav>
+
+    <nav class="nav-mobile">
+        <div class="circle"></div>
+        <div class="menu-mobile-container">
+            <ul class="mobile-menu-list">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="catalogo.html">Catálogo</a></li>
+                <li><a href="noticias.html">Noticias</a></li>
+                <li><a href="terminos.html">Términos</a></li>
+                <li><a href="descargas.html">Descargar</a></li>
+            </ul>
+        </div>
+        <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+            <div class="burger-lines">
+                <div class="x"></div>
+                <div class="y"></div>
+                <div class="z"></div>
+            </div>
+        </button>
+    </nav>
+
+    <main class="chapter-content" id="chapterMain" style="display:none">
+        <section id="chapterSection"></section>
+        <nav class="chapter-nav" id="chapterNav"></nav>
+        <a class="back-to-top" href="#top"><span class="gb-icon gb-icon-arrow-up"></span></a>
+    </main>
+
+    <div id="chapterLoading" style="text-align:center;padding:4rem 1rem;color:var(--text-secondary)">
+        <p>Cargando capítulo...</p>
+    </div>
+
+    <div id="chapterError" style="display:none;text-align:center;padding:4rem 1rem">
+        <p style="color:var(--accent-color);font-size:1.2rem;margin-bottom:1rem">Capítulo no encontrado</p>
+        <a href="catalogo.html" style="color:var(--primary-color);text-decoration:underline">Volver al catálogo</a>
+    </div>
+
+    <script src="responsivo.js"></script>
+    <script>
+    (async () => {
+        const params = new URLSearchParams(window.location.search);
+        const id = params.get('id');
+        const main = document.getElementById('chapterMain');
+        const loading = document.getElementById('chapterLoading');
+        const error = document.getElementById('chapterError');
+        const section = document.getElementById('chapterSection');
+        const nav = document.getElementById('chapterNav');
+
+        if (!id) {
+            loading.style.display = 'none';
+            error.style.display = 'block';
+            return;
+        }
+
+        try {
+            const res = await fetch('content/' + id + '.json');
+            if (!res.ok) throw new Error('Not found');
+            const data = await res.json();
+
+            document.title = data.title + ' | GreatBook';
+            section.innerHTML = data.content;
+
+            let navHtml = '';
+            if (data.prev) {
+                navHtml += '<a class="chapter-nav-link" href="chapter.html?id=' + data.prev.replace('.html', '') + '"><span class="gb-icon gb-icon-arrow-left"></span></a>';
+            }
+            if (data.book) {
+                navHtml += '<a class="chapter-nav-link" href="' + data.book + '"><span class="gb-icon gb-icon-home"></span></a>';
+            }
+            if (data.next) {
+                navHtml += '<a class="chapter-nav-link" href="chapter.html?id=' + data.next.replace('.html', '') + '"><span class="gb-icon gb-icon-arrow-right"></span></a>';
+            }
+            nav.innerHTML = navHtml;
+
+            // Swipe navigation
+            let touchStartX = 0;
+            let touchStartY = 0;
+            document.addEventListener('touchstart', (e) => {
+                touchStartX = e.changedTouches[0].screenX;
+                touchStartY = e.changedTouches[0].screenY;
+            }, { passive: true });
+
+            document.addEventListener('touchend', (e) => {
+                const dx = e.changedTouches[0].screenX - touchStartX;
+                const dy = e.changedTouches[0].screenY - touchStartY;
+                if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 80) {
+                    if (dx < 0 && data.next) {
+                        window.location.href = 'chapter.html?id=' + data.next.replace('.html', '');
+                    } else if (dx > 0 && data.prev) {
+                        window.location.href = 'chapter.html?id=' + data.prev.replace('.html', '');
+                    }
+                }
+            }, { passive: true });
+
+            loading.style.display = 'none';
+            main.style.display = 'block';
+
+            // Restore scroll & reading progress
+            const saved = localStorage.getItem('scroll_' + id);
+            if (saved) window.scrollTo(0, parseInt(saved));
+            window.addEventListener('scroll', () => {
+                localStorage.setItem('scroll_' + id, window.scrollY);
+            });
+
+        } catch (e) {
+            loading.style.display = 'none';
+            error.style.display = 'block';
+        }
+    })();
+    </script>
+</body>
+</html>
