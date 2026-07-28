@@ -381,7 +381,32 @@
     if (!isDesktopApp) {
       fetch('https://api.github.com/repos/Wastermanlord/GreatBook-Library/releases/latest')
         .then(r => r.json())
-        .then(d => { if (d.tag_name) versionDisplay.textContent = d.tag_name })
+        .then(release => {
+          if (!release.tag_name) return
+          const version = release.tag_name.replace(/^v/i, '')
+          versionDisplay.textContent = release.tag_name
+
+          const linuxAsset = release.assets.find(a => a.name.includes('AppImage'))
+          const windowsAsset = release.assets.find(a => a.name.includes('Setup') && a.name.endsWith('.exe'))
+          const apkAsset = release.assets.find(a => a.name.endsWith('.apk'))
+
+          grid.querySelectorAll('.dl-card').forEach(card => {
+            const btn = card.querySelector('.dl-btn')
+            const platform = card.dataset.platform
+            if (platform === 'linux' && linuxAsset) {
+              btn.href = linuxAsset.browser_download_url
+              btn.innerHTML = 'AppImage &bull; V' + version
+            }
+            if (platform === 'windows' && windowsAsset) {
+              btn.href = windowsAsset.browser_download_url
+              btn.innerHTML = '.exe &bull; V' + version
+            }
+            if (platform === 'android' && apkAsset) {
+              btn.href = apkAsset.browser_download_url
+              btn.innerHTML = 'APK &bull; V' + version
+            }
+          })
+        })
         .catch(() => {})
     }
 
