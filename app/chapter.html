@@ -51,6 +51,9 @@
     <main class="chapter-content" id="chapterMain" style="display:none">
         <section id="chapterSection"></section>
         <nav class="chapter-nav" id="chapterNav"></nav>
+        <button class="share-btn" id="shareBtn" title="Compartir capítulo" style="display:none">
+            <span class="gb-icon gb-icon-share"></span>
+        </button>
         <a class="back-to-top" href="#top"><span class="gb-icon gb-icon-arrow-up"></span></a>
     </main>
 
@@ -145,6 +148,29 @@
             window.addEventListener('scroll', () => {
                 localStorage.setItem('scroll_' + id, window.scrollY);
             });
+
+            // Share button
+            const shareBtn = document.getElementById('shareBtn');
+            if (shareBtn) {
+                shareBtn.style.display = 'flex';
+                shareBtn.addEventListener('click', async () => {
+                    const shareUrl = window.location.href;
+                    const shareTitle = data.title + ' | GreatBook';
+                    if (navigator.share) {
+                        try {
+                            await navigator.share({ title: shareTitle, url: shareUrl });
+                        } catch {}
+                    } else {
+                        try {
+                            await navigator.clipboard.writeText(shareUrl);
+                            shareBtn.innerHTML = '<span class="gb-icon gb-icon-check"></span>';
+                            setTimeout(() => {
+                                shareBtn.innerHTML = '<span class="gb-icon gb-icon-share"></span>';
+                            }, 2000);
+                        } catch {}
+                    }
+                });
+            }
 
         } catch (e) {
             loading.style.display = 'none';

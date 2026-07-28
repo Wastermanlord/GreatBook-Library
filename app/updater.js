@@ -100,6 +100,7 @@
   const contentUpdated = await updateContent();
   if (contentUpdated) {
     window._contentUpdated = true;
+    window.dispatchEvent(new CustomEvent('content-updated'));
   }
 
   checkApkUpdate();

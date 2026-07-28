@@ -78,6 +78,12 @@
 </footer>
 
     <script src="updater.js"></script>
+    <script>
+    // Hide splash screen after load
+    if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.SplashScreen) {
+        window.Capacitor.Plugins.SplashScreen.hide();
+    }
+    </script>
     <script src="responsivo.js"></script>
     <script>
     // APK update notification for Android
@@ -90,6 +96,15 @@
             '<a href="' + url + '" style="color:var(--primary-color);text-decoration:underline;font-weight:700;" target="_blank">Descargar APK</a>' +
             '<button onclick="this.parentElement.remove()" style="background:none;border:none;color:var(--primary-color);cursor:pointer;font-size:1.2rem;padding:0 4px;">&times;</button>';
         document.body.appendChild(banner);
+    });
+
+    // Content updated toast
+    window.addEventListener('content-updated', function() {
+        var toast = document.createElement('div');
+        toast.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#1a936f;color:#fff;padding:12px 24px;border-radius:12px;font-size:0.9rem;font-weight:600;z-index:9999;box-shadow:0 4px 12px rgba(0,0,0,0.3);animation:fadeIn 0.3s ease;';
+        toast.textContent = 'Contenido actualizado';
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 3000);
     });
     </script>
     <script>
