@@ -72,8 +72,26 @@
   // ─── APK version check ───────────────────────────────────────
   async function checkApkUpdate() {
     try {
-      const info = await Device.getInfo();
-      const currentVersion = info.appVersion || '1.0.9';
+      let currentVersion = '1.1.0';
+
+      // Try to get version from Capacitor Device plugin
+      if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.Device) {
+        try {
+          const info = await window.Capacitor.Plugins.Device.getInfo();
+          if (info.appVersion) currentVersion = info.appVersion;
+        } catch {}
+      }
+
+      // Fallback: check stored version in localStorage
+      const storedVersion = localStorage.getItem('app_version');
+      if (!storedVersion) {
+        localStorage.setItem('app_version', currentVersion);
+      } else if (storedVersion !== currentVersion) {
+        // App was updated, clear old data
+        localStorage.removeItem('app_version');
+        localStorage.setItem('app_version', currentVersion);
+        return; // Don't show update banner on first run after update
+      }
 
       const res = await fetch('https://api.github.com/repos/Wastermanlord/GreatBook-Library/releases/latest');
       if (!res.ok) return;
@@ -87,7 +105,6 @@
             version: latestVersion,
             url: apkAsset.browser_download_url
           };
-          // Dispatch event for UI to handle
           window.dispatchEvent(new CustomEvent('apk-update-available', {
             detail: { version: latestVersion, url: apkAsset.browser_download_url }
           }));
