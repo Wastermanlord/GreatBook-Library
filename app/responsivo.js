@@ -80,16 +80,35 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const isChapterPage = document.querySelector('.chapter-content');
     if (isChapterPage) {
-        const parts = fileName.split('_');
-        if (parts.length >= 2) {
-            const bookBaseId = normalizeId(parts[0] + "_" + parts[1]);
-            const h2 = document.querySelector('.chapter-content h2');
-            localStorage.setItem(`last_cap_${bookBaseId}`, JSON.stringify({
-                chapter: fileName,
-                title: h2 ? h2.textContent.trim() : fileName,
-                time: Date.now()
-            }));
-            localStorage.setItem(`read_${normalizeId(fileName)}`, '1');
+        const h2 = document.querySelector('.chapter-content h2');
+        const title = h2 ? h2.textContent.trim() : fileName;
+
+        if (fileName === 'chapter.html') {
+            const params = new URLSearchParams(window.location.search);
+            const id = params.get('id');
+            if (id) {
+                const parts = id.split('_');
+                if (parts.length >= 2) {
+                    const bookBaseId = normalizeId(parts[0] + '_' + parts[1]);
+                    localStorage.setItem('last_cap_' + bookBaseId, JSON.stringify({
+                        chapter: 'chapter.html?id=' + id,
+                        title: title,
+                        time: Date.now()
+                    }));
+                    localStorage.setItem('read_' + normalizeId(id), '1');
+                }
+            }
+        } else {
+            const parts = fileName.split('_');
+            if (parts.length >= 2) {
+                const bookBaseId = normalizeId(parts[0] + "_" + parts[1]);
+                localStorage.setItem(`last_cap_${bookBaseId}`, JSON.stringify({
+                    chapter: fileName,
+                    title: title,
+                    time: Date.now()
+                }));
+                localStorage.setItem(`read_${normalizeId(fileName)}`, '1');
+            }
         }
     }
 
@@ -200,6 +219,12 @@ document.addEventListener('DOMContentLoaded', function() {
         progressBar.className = 'read-progress-bar';
         body.appendChild(progressBar);
 
+        let scrollId = normalizeId(fileName);
+        if (fileName === 'chapter.html') {
+            const id = new URLSearchParams(window.location.search).get('id');
+            if (id) scrollId = normalizeId(id);
+        }
+
         function updateProgress() {
             const scrollTop = window.scrollY;
             const docHeight = document.documentElement.scrollHeight - window.innerHeight;
@@ -209,7 +234,7 @@ document.addEventListener('DOMContentLoaded', function() {
         window.addEventListener('scroll', updateProgress);
         updateProgress();
 
-        const savedPct = localStorage.getItem('scroll_' + normalizeId(fileName));
+        const savedPct = localStorage.getItem('scroll_' + scrollId);
         if (savedPct) {
             const docHeight = document.documentElement.scrollHeight - window.innerHeight;
             const targetY = (parseFloat(savedPct) / 100) * docHeight;
@@ -223,7 +248,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const scrollTop = window.scrollY;
                 const docHeight = document.documentElement.scrollHeight - window.innerHeight;
                 const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-                localStorage.setItem('scroll_' + normalizeId(fileName), pct.toString());
+                localStorage.setItem('scroll_' + scrollId, pct.toString());
             }, 2000);
         });
 
